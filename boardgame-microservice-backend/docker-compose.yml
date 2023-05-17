@@ -1,0 +1,49 @@
+services:
+    db:
+        container_name: db
+        image: postgres
+        restart: always
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=Huyhoangdeptrai2003@
+            - POSTGRES_DB=test
+        ports:
+            - 5432:5432
+        networks:
+            - spring-cloud-network
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+
+    gateway:
+        container_name: gateway
+        build:
+            context: .
+            dockerfile: gateway/Dockerfile
+        image: gateway:latest
+        restart: always
+        ports:
+            - 8080:8080
+        networks:
+            - spring-cloud-network
+           
+    authservice:
+        container_name: authservice
+        build:
+            context: .
+            dockerfile: authservice/Dockerfile
+        image: authservice:latest
+        restart: always
+        depends_on:
+            - db
+        ports:
+            - 8081:8081
+        networks:
+            - spring-cloud-network
+        
+networks:
+    spring-cloud-network:
+        driver: bridge
+
+# cd authservice; mvn clean package -DskipTests
+# cd gateway; mvn clean package -DskipTests
+# docker-compose up 
