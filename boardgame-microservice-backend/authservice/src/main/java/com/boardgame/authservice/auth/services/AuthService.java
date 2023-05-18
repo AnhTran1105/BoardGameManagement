@@ -57,17 +57,29 @@ public class AuthService {
 
     public Object authenticate(AuthenticationRequest request) {
 
-        Manager user = managerRepository.findByEmail(request.getEmail()).orElseThrow();
+        Manager manager = managerRepository.findByEmail(request.getEmail()).orElseThrow();
 
         var authToken = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
         authenticationManager.authenticate(authToken);
 
-        String jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(manager);
 
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();
-        response.put("user", user);
+        response.put("manager", manager);
         response.put("accessToken", jwtToken);
         response.put("message", "Authenticated successfully.");
+        response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+
+        return response;
+    }
+
+    public Object getManagerData(String authorization) {
+        String username = jwtService.extractUsername(authorization.substring("Bearer ".length()));
+        Manager manager = managerRepository.findByEmail(username).orElseThrow();
+
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("manager", manager);
+        response.put("message", "Registered successfully.");
         response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
 
         return response;

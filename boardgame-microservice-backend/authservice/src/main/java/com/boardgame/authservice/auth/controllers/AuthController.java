@@ -18,6 +18,7 @@ import com.boardgame.authservice.auth.requests.RegisterRequest;
 import com.boardgame.authservice.auth.services.AuthService;
 import com.boardgame.authservice.exceptions.CustomException.ValidationException;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -51,6 +52,12 @@ public class AuthController {
         checkForValidation(bindingResult);
 
         return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+    @GetMapping("/getManagerData")
+    public ResponseEntity<Object> getManagerData(HttpServletRequest httpServletRequest) {
+        String authorization = httpServletRequest.getHeader("Authorization");
+        return ResponseEntity.ok(authenticationService.getManagerData(authorization));
     }
 
     private void checkForValidation(BindingResult bindingResult) {
