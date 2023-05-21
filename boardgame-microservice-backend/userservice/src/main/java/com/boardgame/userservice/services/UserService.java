@@ -3,6 +3,7 @@ package com.boardgame.userservice.services;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,17 @@ public class UserService {
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();
         response.put("user", user);
         response.put("message", "Created successfully.");
+        response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+
+        return response;
+    }
+
+    public Object find(UUID id) {
+        User user = userRepository.findById(id).orElseThrow();
+        
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("user", user);
+        response.put("message", "User found.");
         response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
 
         return response;
