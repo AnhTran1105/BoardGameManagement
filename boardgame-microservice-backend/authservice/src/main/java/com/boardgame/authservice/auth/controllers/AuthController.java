@@ -29,11 +29,6 @@ public class AuthController {
     @Autowired
     private final AuthService authenticationService;
 
-    @GetMapping("/")
-    public String authService() {
-        return "Auth service";
-    }
-
     @PostMapping("/register")
     public ResponseEntity<Object> register(
             @Valid @RequestBody RegisterRequest request,

@@ -79,7 +79,7 @@ public class AuthService {
 
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();
         response.put("manager", manager);
-        response.put("message", "Registered successfully.");
+        response.put("message", "Get data successfully.");
         response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
 
         return response;

@@ -13,4 +13,6 @@ spring:
             ddl-auto: create-drop
         show-sql: true
         database: postgresql
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        database-platform: org.hibernate.dialect.PostgreSQLDialect 
+    kafka:
+        bootstrap-servers: http://broker:9092
