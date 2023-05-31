@@ -1,10 +1,10 @@
-package com.boardgame.contractservice.exceptions;
+package com.boardgame.boardgameservice.exceptions;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.boardgame.contractservice.exceptions.CustomException.ValidationException;
+import com.boardgame.boardgameservice.exceptions.CustomException.ValidationException;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;

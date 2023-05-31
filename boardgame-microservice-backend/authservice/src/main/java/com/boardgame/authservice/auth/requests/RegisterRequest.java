@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Data
-public class RegisterRequest {
+public class RegisterRequest { 
 
     @NotBlank(message = "Email address is empty")
     @Email(message = "Email address is not valid")

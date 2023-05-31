@@ -1,13 +1,18 @@
 package com.boardgame.contractservice.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +36,11 @@ public class Contract {
     @Embedded
     private Lessee lessee;
 
-    private UUID[] boardgames;
+    @ElementCollection
+    @CollectionTable(name = "contract_boardgames", joinColumns = @JoinColumn(name = "contract_id"))
+    @Builder.Default
+    private List<Boardgame> boardgames = new ArrayList<>();
+    
 
     private Timestamp startAt;
     private Timestamp endAt;

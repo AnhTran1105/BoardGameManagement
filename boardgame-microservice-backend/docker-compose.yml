@@ -91,6 +91,18 @@ services:
         networks:
             - spring-cloud-network
 
+    boardgameservice:
+        container_name: boardgameservice
+        build:
+            context: .
+            dockerfile: boardgameservice/Dockerfile
+        image: boardgameservice:latest
+        restart: always
+        ports:
+            - 8084:8084
+        networks:
+            - spring-cloud-network
+
 networks:
     spring-cloud-network:
         driver: bridge

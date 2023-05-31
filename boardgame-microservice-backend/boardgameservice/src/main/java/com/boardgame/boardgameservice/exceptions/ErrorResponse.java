@@ -1,4 +1,4 @@
-package com.boardgame.authservice.exceptions;
+package com.boardgame.boardgameservice.exceptions;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -13,4 +13,3 @@ public class ErrorResponse {
     final private String message;
     private Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
 }
- 

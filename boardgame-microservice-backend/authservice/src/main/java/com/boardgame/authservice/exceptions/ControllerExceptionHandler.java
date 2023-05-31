@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) 
     public Object handleException(Exception ex) {
 
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex.getMessage());
@@ -25,7 +25,7 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Object handleBadRequestException(ValidationException ex) {
 
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), ex.getMessage());
 
         return errorResponse;
     }
@@ -34,7 +34,7 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Object handleNotFoundException(NotFoundException ex) {
 
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.getReasonPhrase(), ex.getMessage());
 
         return errorResponse;
     }

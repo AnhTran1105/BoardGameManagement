@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import com.boardgame.contractservice.services.ContractService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -42,6 +45,11 @@ public class ContractController {
 
         String authorization = httpServletRequest.getHeader("Authorization");
         return ResponseEntity.ok(contractService.create(request, authorization));
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Object> find(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(contractService.find(id));
     }
 
     private void checkForValidation(BindingResult bindingResult) {
