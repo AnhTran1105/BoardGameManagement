@@ -42,4 +42,16 @@ public class OnMessageSendThenReceive {
         System.out.println("Contractservice sent: " + dataSent);
         return responseQueue.take();
     }
+
+    @KafkaListener(id = "boardgameservice-contractservice-listen", topics = "boardgameservice-contractservice")
+    public void listenBoardgameContractResponse(String in) {
+        responseQueue.offer(in);
+        System.out.println("Contractservice receive: " + in);
+    }
+
+    public Object getBoardgameData(Object dataSent) throws InterruptedException {
+        kafkaTemplate.send("contractservice-boardgameservice", dataSent);
+        System.out.println("Contractservice sent: " + dataSent);
+        return responseQueue.take();
+    }
 }

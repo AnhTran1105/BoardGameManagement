@@ -18,6 +18,8 @@ public class GatewayConfig {
                         .uri("http://userservice:8082"))
                 .route("contractservice", r -> r.path("/api/contract/**")
                         .uri("http://contractservice:8083"))
+                .route("boardgameservice", r -> r.path("/api/boardgame/**")
+                        .uri("http://boardgameservice:8084"))
                 .build();
     }
 }

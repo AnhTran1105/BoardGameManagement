@@ -1,6 +1,7 @@
-package com.boardgame.authservice.auth.controllers;
+package com.boardgame.boardgameservice.controllers;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,55 +9,54 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.boardgame.authservice.auth.requests.AuthenticationRequest;
-import com.boardgame.authservice.auth.requests.RegisterRequest;
-import com.boardgame.authservice.auth.services.AuthService;
-import com.boardgame.authservice.exceptions.CustomException.ValidationException;
-
-import jakarta.servlet.http.HttpServletRequest;
+import com.boardgame.boardgameservice.requests.CreateBoardgameRequest;
+import com.boardgame.boardgameservice.services.BoardgameService;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 
-@RestController 
-@RequestMapping("/api/auth")
+@RestController
+@RequestMapping("/api/boardgame")
 @RequiredArgsConstructor
-public class AuthController {
+public class BoardgameController {
     @Autowired
-    private final AuthService authenticationService;
+    private final BoardgameService boardgameService;
 
-    @PostMapping("/register")
-    public ResponseEntity<Object> register(
-            @Valid @RequestBody RegisterRequest request,
+    @PostMapping("/create")
+    public ResponseEntity<Object> create(
+            @Valid @RequestBody CreateBoardgameRequest request,
             BindingResult bindingResult) {
+
         checkForValidation(bindingResult);
-        return ResponseEntity.ok(authenticationService.register(request));
+
+        return ResponseEntity.ok(boardgameService.create(request));
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<Object> authenticate(
-            @Valid @RequestBody AuthenticationRequest request,
-            BindingResult bindingResult) {
-        checkForValidation(bindingResult);
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Object> find(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(boardgameService.find(id));
     }
 
-    @GetMapping("/getManagerData")
-    public ResponseEntity<Object> getManagerData(HttpServletRequest httpServletRequest) {
-        String authorization = httpServletRequest.getHeader("Authorization");
-        return ResponseEntity.ok(authenticationService.getManagerData(authorization));
+    @GetMapping("/get-all")
+    public ResponseEntity<Object> getAll() {
+        return ResponseEntity.ok(boardgameService.getAll());
     }
 
     private void checkForValidation(BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
             List<String> errorDetails = bindingResult.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.toList());
+            
             String errorDetailsString = String.join("; ", errorDetails);
+
             throw new ValidationException("Invalid data: " + errorDetailsString);
         }
     }
