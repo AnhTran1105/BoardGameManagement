@@ -28,9 +28,15 @@ function Login() {
                                     type="password"
                                     name="password"
                                     id="password"
-                                    className="form-control form-control input-block js-password-field"
+                                    className="form-control input-block js-password-field"
                                     autoComplete="current-password"
                                 />
+                                <button
+                                    className="btn btn-primary btn-block js-sign-in-button"
+                                    type="submit"
+                                >
+                                    Đăng nhập
+                                </button>
                             </div>
                         </form>
                     </div>
