@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class ContractService {
         Lessee lessee = new Lessee().parseLesseeFromJson(jsonNodeLessee);
 
         ArrayList<Boardgame> boardgames = new ArrayList<Boardgame>();
-        for (UUID boardgameId: request.getBoardgames()) {
+        for (UUID boardgameId : request.getBoardgames()) {
             Object boardgameData = onMessageSendThenReceive.getBoardgameData(boardgameId);
             JsonNode jsonNodeBoardgame = objectMapper.readTree(boardgameData.toString());
             Boardgame boardgame = new Boardgame().parseBoardgameFromJson(jsonNodeBoardgame);
@@ -79,6 +80,29 @@ public class ContractService {
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();
         response.put("contract", contract);
         response.put("message", "Found successfully.");
+        response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+
+        return response;
+    }
+
+    public Object getAll() {
+        List<Contract> contracts = contractRepository.findAll();
+
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("contracts", contracts);
+        response.put("message", "Get all contracts successfully.");
+        response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+
+        return response;
+    }
+
+    public Object delete(UUID id) {
+        Contract contract = contractRepository.findById(id).orElseThrow();
+        contractRepository.delete(contract);
+
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("contract", contract);
+        response.put("message", "Deleted successfully.");
         response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
 
         return response;

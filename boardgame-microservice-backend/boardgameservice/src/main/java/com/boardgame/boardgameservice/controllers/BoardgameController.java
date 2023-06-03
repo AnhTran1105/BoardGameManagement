@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,11 @@ public class BoardgameController {
     @GetMapping("/get-all")
     public ResponseEntity<Object> getAll() {
         return ResponseEntity.ok(boardgameService.getAll());
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> delete(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(boardgameService.delete(id));
     }
 
     private void checkForValidation(BindingResult bindingResult) {

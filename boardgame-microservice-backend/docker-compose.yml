@@ -106,3 +106,5 @@ services:
 networks:
     spring-cloud-network:
         driver: bridge
+
+# docker-compose up --force-recreate --build -d

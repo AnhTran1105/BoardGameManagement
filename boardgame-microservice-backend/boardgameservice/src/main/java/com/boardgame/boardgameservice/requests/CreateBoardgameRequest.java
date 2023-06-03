@@ -1,5 +1,7 @@
 package com.boardgame.boardgameservice.requests;
 
+import java.sql.Date;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -12,6 +14,9 @@ public class CreateBoardgameRequest {
 
     @NotBlank(message = "Boardgame description cannot be blank")
     private String description;
+
+    @NotBlank(message = "Boardgame image url cannot be blank")
+    private String imageUrl;
 
     @NotNull(message = "Boardgame player number must be defined")
     private int playerNumberMin;
@@ -30,6 +35,8 @@ public class CreateBoardgameRequest {
 
     @NotBlank(message = "Boardgame publisher cannot be blank")
     private String publisher;
+
+    private Date releaseDate;
 
     @NotNull(message = "Boardgame price must be defined")
     private double price;
