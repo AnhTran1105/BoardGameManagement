@@ -1,5 +1,6 @@
 package com.boardgame.boardgameservice.models;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public class Boardgame {
 
     private String title;
     private String description;
+    private String imageUrl;
 
     private int playerNumberMin;
     private int playerNumberMax;
@@ -36,6 +38,7 @@ public class Boardgame {
     private int ageLimit;
     private String publisher;
     private double price;
+    private Date releaseDate;
 
     private Timestamp createAt;
     private Timestamp updateAt;

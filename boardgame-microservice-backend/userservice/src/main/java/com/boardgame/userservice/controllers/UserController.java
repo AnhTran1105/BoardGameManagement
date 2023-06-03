@@ -44,6 +44,11 @@ public class UserController {
         return ResponseEntity.ok(userService.find(id));
     }
 
+    @GetMapping("/get-all")
+    public ResponseEntity<Object> getAll() {
+        return ResponseEntity.ok(userService.getAll());
+    }
+
     private void checkForValidation(BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {

@@ -17,6 +17,7 @@ import com.boardgame.contractservice.services.ContractService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +52,18 @@ public class ContractController {
     public ResponseEntity<Object> find(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(contractService.find(id));
     }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<Object> getAll() {
+        return ResponseEntity.ok(contractService.getAll());
+    }
+
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> delete(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(contractService.delete(id));
+    }
+
 
     private void checkForValidation(BindingResult bindingResult) {
 

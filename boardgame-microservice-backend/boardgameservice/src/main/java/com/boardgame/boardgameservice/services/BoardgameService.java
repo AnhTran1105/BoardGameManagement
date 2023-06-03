@@ -26,6 +26,7 @@ public class BoardgameService {
         Boardgame boardgame = Boardgame.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
+                .imageUrl(request.getImageUrl())
                 .playerNumberMin(request.getPlayerNumberMin())
                 .playerNumberMax(request.getPlayerNumberMax())
                 .durationMin(request.getDurationMin())
@@ -33,6 +34,7 @@ public class BoardgameService {
                 .ageLimit(request.getAgeLimit())
                 .publisher(request.getPublisher())
                 .price(request.getPrice())
+                .releaseDate(request.getReleaseDate())
                 .createAt(Timestamp.valueOf(LocalDateTime.now()))
                 .updateAt(null)
                 .build();
@@ -65,6 +67,18 @@ public class BoardgameService {
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();
         response.put("boardgames", boardgames);
         response.put("message", "Get all boardgame successfully.");
+        response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+
+        return response;
+    }
+
+    public Object delete(UUID id) {
+        Boardgame boardgame = boardgameRepository.findById(id).orElseThrow();
+        boardgameRepository.delete(boardgame);
+
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("boardgame", boardgame);
+        response.put("message", "Deleted successfully.");
         response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
 
         return response;
