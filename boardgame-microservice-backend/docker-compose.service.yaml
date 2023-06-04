@@ -1,0 +1,20 @@
+# Define YAML anchors for common properties
+services:
+  service:
+    container_name: ${SERVICE_NAME}
+    image: ${SERVICE_NAME}:latest
+    build:
+      context: .
+      dockerfile: ${SERVICE_NAME}/Dockerfile
+    ports:
+      - ${SERVICE_PORT}:${SERVICE_PORT}
+    environment:
+      - server.port=${SERVICE_PORT}
+    env_file: service-env.env
+    restart: always
+    networks:
+      - spring-cloud-network
+
+networks:
+  spring-cloud-network:
+    driver: bridge
