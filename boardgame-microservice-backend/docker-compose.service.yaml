@@ -1,4 +1,4 @@
-# Define YAML anchors for common properties
+# Define microservices
 services:
   service:
     container_name: ${SERVICE_NAME}
