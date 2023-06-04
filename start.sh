@@ -1,4 +1,4 @@
-#!/bin/bash hello world
+#!/bin/bash
 
 # Change directory to boardgame-microservice-backend
 cd boardgame-microservice-backend
