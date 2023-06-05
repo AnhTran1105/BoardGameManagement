@@ -6,7 +6,7 @@ cd boardgame-microservice-backend
 # Load environment variables from .env file
 source .env
 
-docker-compose -f docker-compose.config.yaml up --force-recreate --build -d
+docker-compose -f docker-compose.config.yaml up -d
 
 declare -A service1=(
     ["name"]=authservice
