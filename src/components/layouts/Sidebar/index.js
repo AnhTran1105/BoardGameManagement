@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
-function Sidebar() {
+function Sidebar({ setPage }) {
+    function itemClick(position) {
+        setPage(position);
+    };
+
     return (
         <aside className="app-sidebar">
             <div className="sidebar-wrapper">
@@ -18,7 +22,7 @@ function Sidebar() {
                 </nav>
                 <nav className="app-navbar app-navbar-main">
                     <ul className="app-navbar-menu">
-                        <li className="app-navbar-item">
+                        <li className="app-navbar-item" onClick={() => itemClick(0)}>
                             <div className="app-navbar-item-wrapper">
                                 <NavLink
                                     className={(navData) =>
@@ -26,7 +30,6 @@ function Sidebar() {
                                             ? 'is-active app-navbar-link'
                                             : 'app-navbar-link'
                                     }
-                                    to="/"
                                 >
                                     <i className="icon">
                                         <svg
@@ -58,15 +61,10 @@ function Sidebar() {
                                 </NavLink>
                             </div>
                         </li>
-                        <li className="app-navbar-item ">
+                        <li className="app-navbar-item " onClick={() => itemClick(1)}>
                             <div className="app-navbar-item-wrapper">
                                 <NavLink
-                                    className={(navData) =>
-                                        navData.isActive
-                                            ? 'is-active app-navbar-link'
-                                            : 'app-navbar-link'
-                                    }
-                                    to="/products"
+                                    className='app-navbar-link'
                                 >
                                     <i className="icon">
                                         <svg
@@ -86,19 +84,16 @@ function Sidebar() {
                                             ></path>
                                         </svg>
                                     </i>
-                                    Products
+                                    <div style={{ color: 'black' }}>
+                                        Boardgames
+                                    </div>
                                 </NavLink>
                             </div>
                         </li>
-                        <li className="app-navbar-item">
+                        <li className="app-navbar-item" onClick={() => itemClick(2)}>
                             <div className="app-navbar-item-wrapper">
                                 <NavLink
-                                    className={(navData) =>
-                                        navData.isActive
-                                            ? 'is-active app-navbar-link'
-                                            : 'app-navbar-link'
-                                    }
-                                    to="/store"
+                                    className='app-navbar-link'
                                 >
                                     <i className="icon">
                                         <svg
@@ -106,24 +101,20 @@ function Sidebar() {
                                             width="22"
                                             height="24"
                                             viewBox="0 0 48 48"
-                                            id="store"
                                         >
                                             <path d="M6 24c2.316 0 4.404-.9 6-2.334V36h24V21.666C37.593 23.1 39.687 24 42 24v18H6V24zM42 0l6 15c0 3.312-2.688 6-6 6s-6-2.688-6-6c0 3.312-2.688 6-6 6s-6-2.688-6-6c0 3.312-2.688 6-6 6s-6-2.688-6-6c0 3.312-2.688 6-6 6s-6-2.688-6-6L6 0h36zM3 48v-3h42v3H3z"></path>
                                         </svg>
                                     </i>
-                                    Store
+                                    <div style={{ color: 'black' }}>
+                                        Users
+                                    </div>
                                 </NavLink>
                             </div>
                         </li>
-                        <li className="app-navbar-item">
+                        <li className="app-navbar-item" onClick={() => itemClick(3)}>
                             <div className="app-navbar-item-wrapper">
                                 <NavLink
-                                    className={(navData) =>
-                                        navData.isActive
-                                            ? 'is-active app-navbar-link'
-                                            : 'app-navbar-link'
-                                    }
-                                    to="/customer"
+                                    className='app-navbar-link'
                                 >
                                     <i className="icon">
                                         <svg
@@ -139,32 +130,9 @@ function Sidebar() {
                                             </g>
                                         </svg>
                                     </i>
-                                    Clients
-                                </NavLink>
-                            </div>
-                        </li>
-                        <li className="app-navbar-item">
-                            <div className="app-navbar-item-wrapper">
-                                <NavLink
-                                    className={(navData) =>
-                                        navData.isActive
-                                            ? 'is-active app-navbar-link'
-                                            : 'app-navbar-link'
-                                    }
-                                    to="/finances"
-                                >
-                                    <i className="icon">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            id="finance"
-                                            viewBox="0 0 32 32"
-                                        >
-                                            <path d="M16 2.5c7.462 0 13.5 6.038 13.5 13.5S23.462 29.5 16 29.5 2.5 23.462 2.5 16 8.538 2.5 16 2.5Zm0 2.113C9.717 4.613 4.613 9.717 4.613 16S9.717 27.387 16 27.387 27.387 22.283 27.387 16 22.283 4.613 16 4.613Zm0 1A10.38 10.38 0 0 1 26.387 16 10.38 10.38 0 0 1 16 26.387 10.38 10.38 0 0 1 5.613 16 10.38 10.38 0 0 1 16 5.613Zm-1.5 2.89v2.036a3.508 3.508 0 0 0-2.533 1.713 3.504 3.504 0 0 0 0 3.5 3.506 3.506 0 0 0 2.533 1.71v1.042h-3v2.998h3v2.002h3v-2.041a3.504 3.504 0 0 0 2.531-1.711 3.504 3.504 0 0 0 0-3.5 3.506 3.506 0 0 0-2.531-1.713v-1.037h3v-2.998h-3v-2zm1 1h1v13.001h-1V10.502zm2 2h2v.999h-2zm-3 .134v1.154c-.294.126-.636.176-.8.461a1.503 1.503 0 0 0 0 1.5c.164.285.506.335.8.46v1.155c-.683-.147-1.31-.498-1.666-1.115a2.504 2.504 0 0 1 0-2.5c.356-.618.983-.968 1.666-1.115zm0 2.357v.016-.016zm3 1.643c.682.147 1.307.497 1.664 1.115a2.504 2.504 0 0 1 0 2.5c-.357.618-.982.968-1.664 1.115v-1.154c.293-.126.635-.177.799-.461a1.503 1.503 0 0 0 0-1.5c-.164-.284-.506-.335-.799-.461zm-5 3.867h2v.998h-2z"></path>
-                                        </svg>
-                                    </i>
-                                    Finances
+                                    <div style={{ color: 'black' }}>
+                                        Contracts
+                                    </div>
                                 </NavLink>
                             </div>
                         </li>
