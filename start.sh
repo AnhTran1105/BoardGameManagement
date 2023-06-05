@@ -56,7 +56,6 @@ echo -n > .env
 lines[2]="  service:"
 printf '%s\n' "${lines[@]}" > "$file"
 
-
 # docker ps -aq | xargs docker stop | xargs docker rm 
 # docker system prune -a --volumes
 
