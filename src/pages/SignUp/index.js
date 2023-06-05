@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { register } from '~/api-service/authservice/authservice';
 
 function SignUp() {
     const [formData, setFormData] = useState({
@@ -68,6 +69,16 @@ function SignUp() {
         } else {
             // Submit the form
             console.log(formData);
+
+            register(
+                formData.email,
+                formData.password,
+                formData.name,
+                formData.phoneNumber,
+                formData.gender,
+                formData.birthday,
+                formData.address,
+            )
         }
     };
 

@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import { login } from '../../api-service/authservice/authservice'
 
 function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (e) => {
-    e.preventDefault();
-
-    console.log(username);
-    console.log(password);
-    
-    login(username, password);
+    e.preventDefault();    
+    login(email, password);
   };
 
   return (
@@ -33,8 +29,8 @@ function Login() {
                 autoCorrect="off"
                 autoComplete="username"
                 autoFocus="autofocus"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <div>
                 <label htmlFor="password">Mật khẩu</label>
