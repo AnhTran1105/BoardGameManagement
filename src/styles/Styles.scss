@@ -19,7 +19,7 @@ body {
     -ms-scroll-chaining: none;
     overscroll-behavior: none;
     overflow: hidden;
-    color: var(--black);
+    color: var(--text-primary);
 }
 
 a {
@@ -248,6 +248,16 @@ li {
     display: flex;
 }
 
+.opacity {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--dark-alpha-30);
+    visibility: hidden;
+}
+
 .app-btn {
     font-size: 14px;
     border-radius: 999px;
@@ -298,16 +308,24 @@ li {
     border-radius: 999px !important;
 }
 
+.pad-t-26 {
+    padding-top: 26px;
+}
+
 .is-38x38 {
     width: 38px;
     height: 38px;
 }
 
+.is-fullhd-20 {
+    width: 20%;
+}
+
 //---------------------------------------------Login, register page---------------------------------------------
 
 .app-layout {
-    // display: -moz-flex;
-    // display: flex;
+    display: -moz-flex;
+    display: flex;
     width: 100%;
     min-width: 768px;
     height: 100vh;
@@ -487,7 +505,7 @@ li {
 
 //---------------------------------------------Sidebar---------------------------------------------
 .app-sidebar {
-    height: 100vh;
+    height: 100%;
     position: relative;
     z-index: 100;
     width: 240px;
@@ -568,6 +586,10 @@ li {
 
                     .icon {
                         fill: var(--link-text-hover);
+
+                        .dashboard-ic {
+                            fill: var(--link-text-hover);
+                        }
                     }
                 }
             }
@@ -576,6 +598,7 @@ li {
                 margin-right: 8px;
                 width: 24px;
                 height: 24px;
+                fill: var(--text-primary);
             }
 
             .app-navbar-item-wrapper {
@@ -590,6 +613,10 @@ li {
 
             .icon {
                 fill: var(--white);
+
+                .dashboard-ic {
+                    fill: var(--white);
+                }
             }
         }
     }
@@ -623,7 +650,7 @@ li {
     z-index: 99;
     min-width: 660px;
     transition: right 0.4s;
-    padding: 0 32px;
+    padding: 0 59px;
 
     &::before {
         content: '';
@@ -733,10 +760,156 @@ li {
 
         &::after {
             content: '';
-            border-left: 1px solid var(--black);
+            border-left: 1px solid var(--text-primary);
             position: absolute;
             top: 25px;
             bottom: 25px;
+        }
+    }
+}
+
+//---------------------------------------------Main page---------------------------------------------
+
+.container {
+    flex-grow: 1;
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+}
+
+.app-mainpage {
+    -moz-flex-grow: 1;
+    flex-grow: 1;
+    -ms-flex-positive: 1;
+    position: relative;
+    width: calc(100% - 570px);
+    min-height: 100%;
+    transition: margin-right 0.4s;
+}
+
+.app-box {
+    display: block;
+}
+
+.home-page-content {
+    margin-top: 60px;
+}
+
+main.app-section {
+    padding: 0 59px;
+    margin: 0 auto;
+}
+
+//---------------------------------------------Boardgames page---------------------------------------------
+
+.carousel-wrapper {
+    position: relative;
+
+    .carousel {
+        display: flex;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        overflow: hidden;
+        margin: 0 -15px;
+
+        .carousel-container {
+            display: flex;
+            z-index: 3;
+            width: 100%;
+            flex-wrap: wrap;
+
+            .carousel-item {
+                position: relative;
+                padding: 8px 14px;
+                display: flex;
+                flex-direction: column;
+
+                .card-content {
+                    margin-top: 12px;
+
+                    .title {
+                        text-transform: none;
+                        font-size: 15px;
+                        font-weight: 500;
+                        line-height: 1.36;
+                        color: var(--text-primary);
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: block;
+
+                        a {
+                            text-transform: none;
+                            font-size: 15px;
+                            font-weight: 700;
+                            margin-top: 0;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: block;
+                        }
+                    }
+
+                    .subtitle {
+                        font-size: 13px;
+                        font-weight: 400;
+                        line-height: 1.33;
+                        color: var(--text-secondary);
+                    }
+                }
+
+                .boardgame-card {
+                    width: 100%;
+                    max-width: 100%;
+                    position: relative;
+
+                    .card-image {
+                        display: block;
+                        position: relative;
+                        overflow: hidden;
+                        border-radius: 4px;
+                        flex-shrink: 0;
+
+                        &:hover {
+                            cursor: pointer;
+
+                            .opacity,
+                            .app-actions {
+                                visibility: visible;
+                            }
+
+                            img {
+                                transform: scale(1.1) translateZ(0);
+                            }
+                        }
+
+                        .image {
+                            line-height: 0;
+                            height: 0;
+                            padding-bottom: 100%;
+                            border-radius: 5px;
+                            overflow: hidden;
+                            position: relative;
+                            width: 100%;
+
+                            img {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                transition: transform 0.7s;
+
+                                &::before {
+                                    content: '';
+                                    display: block;
+                                    padding-bottom: 100%; /* Chiều cao sẽ bằng 100% chiều rộng */
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

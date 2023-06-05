@@ -1,11 +1,7 @@
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
-function Sidebar({ setPage }) {
-    function itemClick(position) {
-        setPage(position);
-    };
-
+function Sidebar() {
     return (
         <aside className="app-sidebar">
             <div className="sidebar-wrapper">
@@ -22,7 +18,7 @@ function Sidebar({ setPage }) {
                 </nav>
                 <nav className="app-navbar app-navbar-main">
                     <ul className="app-navbar-menu">
-                        <li className="app-navbar-item" onClick={() => itemClick(0)}>
+                        <li className="app-navbar-item">
                             <div className="app-navbar-item-wrapper">
                                 <NavLink
                                     className={(navData) =>
@@ -30,41 +26,36 @@ function Sidebar({ setPage }) {
                                             ? 'is-active app-navbar-link'
                                             : 'app-navbar-link'
                                     }
+                                    to="/"
                                 >
                                     <i className="icon">
                                         <svg
-                                            id="SvgjsSvg1024"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
                                             width="24"
                                             height="24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            version="1.1"
                                         >
-                                            <defs id="SvgjsDefs1025"></defs>
-                                            <g id="SvgjsG1026">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                    width="24"
-                                                    height="24"
-                                                >
-                                                    <path fill="none" d="M0 0h24v24H0V0z"></path>
-                                                    <path
-                                                        d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"
-                                                        fill="#ffffff"
-                                                        className="color000 svgShape"
-                                                    ></path>
-                                                </svg>
-                                            </g>
+                                            <path fill="none" d="M0 0h24v24H0V0z"></path>
+                                            <path
+                                                d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"
+                                                fill="var(--text-primary)"
+                                                className="color000 svgShape dashboard-ic"
+                                            ></path>
                                         </svg>
                                     </i>
                                     Dashboard
                                 </NavLink>
                             </div>
                         </li>
-                        <li className="app-navbar-item " onClick={() => itemClick(1)}>
+                        <li className="app-navbar-item ">
                             <div className="app-navbar-item-wrapper">
                                 <NavLink
-                                    className='app-navbar-link'
+                                    className={(navData) =>
+                                        navData.isActive
+                                            ? 'is-active app-navbar-link'
+                                            : 'app-navbar-link'
+                                    }
+                                    to="/boardgames"
                                 >
                                     <i className="icon">
                                         <svg
@@ -84,37 +75,19 @@ function Sidebar({ setPage }) {
                                             ></path>
                                         </svg>
                                     </i>
-                                    <div style={{ color: 'black' }}>
-                                        Boardgames
-                                    </div>
+                                    <div>Boardgames</div>
                                 </NavLink>
                             </div>
                         </li>
-                        <li className="app-navbar-item" onClick={() => itemClick(2)}>
+                        <li className="app-navbar-item">
                             <div className="app-navbar-item-wrapper">
                                 <NavLink
-                                    className='app-navbar-link'
-                                >
-                                    <i className="icon">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="22"
-                                            height="24"
-                                            viewBox="0 0 48 48"
-                                        >
-                                            <path d="M6 24c2.316 0 4.404-.9 6-2.334V36h24V21.666C37.593 23.1 39.687 24 42 24v18H6V24zM42 0l6 15c0 3.312-2.688 6-6 6s-6-2.688-6-6c0 3.312-2.688 6-6 6s-6-2.688-6-6c0 3.312-2.688 6-6 6s-6-2.688-6-6c0 3.312-2.688 6-6 6s-6-2.688-6-6L6 0h36zM3 48v-3h42v3H3z"></path>
-                                        </svg>
-                                    </i>
-                                    <div style={{ color: 'black' }}>
-                                        Users
-                                    </div>
-                                </NavLink>
-                            </div>
-                        </li>
-                        <li className="app-navbar-item" onClick={() => itemClick(3)}>
-                            <div className="app-navbar-item-wrapper">
-                                <NavLink
-                                    className='app-navbar-link'
+                                    className={(navData) =>
+                                        navData.isActive
+                                            ? 'is-active app-navbar-link'
+                                            : 'app-navbar-link'
+                                    }
+                                    to="/users"
                                 >
                                     <i className="icon">
                                         <svg
@@ -130,9 +103,33 @@ function Sidebar({ setPage }) {
                                             </g>
                                         </svg>
                                     </i>
-                                    <div style={{ color: 'black' }}>
-                                        Contracts
-                                    </div>
+                                    <div>Users</div>
+                                </NavLink>
+                            </div>
+                        </li>
+                        <li className="app-navbar-item">
+                            <div className="app-navbar-item-wrapper">
+                                <NavLink
+                                    className={(navData) =>
+                                        navData.isActive
+                                            ? 'is-active app-navbar-link'
+                                            : 'app-navbar-link'
+                                    }
+                                    to="/contracts"
+                                >
+                                    <i className="icon">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 48 48"
+                                            id="receipt"
+                                        >
+                                            <path
+                                                d="M16,3v9a1,1,0,0,1-1,1H7a1,1,0,0,1-.75-1.66l8-9a1,1,0,0,1,1.11-.27A1,1,0,0,1,16,3ZM38,5V29.94A9,9,0,0,0,28.36,31H12v2H26.52A8.94,8.94,0,0,0,25,38a8.8,8.8,0,0,0,.52,3H9a3,3,0,0,1-3-3V14h9a2,2,0,0,0,2-2V2H35A3,3,0,0,1,38,5ZM19,13h5V11H19Zm-7,5H24V16H12Zm20,8H12v2H32Zm0-5H12v2H32ZM32,9H30V8H28V9H27a1,1,0,0,0-1,1v3a1,1,0,0,0,1,1h3v1H26v2h2v1h2V17h1a1,1,0,0,0,1-1V13a1,1,0,0,0-1-1H28V11h4ZM42,38a8,8,0,1,1-8-8A8,8,0,0,1,42,38Zm-4.29-1.29-1.42-1.42L33,38.59l-1.29-1.3-1.42,1.42,2,2a1,1,0,0,0,1.42,0Z"
+                                                data-name="89 receipt, Check, Invoice, Money, Notes"
+                                            ></path>
+                                        </svg>
+                                    </i>
+                                    <div>Contracts</div>
                                 </NavLink>
                             </div>
                         </li>
