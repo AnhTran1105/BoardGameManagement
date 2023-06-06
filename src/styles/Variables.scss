@@ -5,6 +5,7 @@
     --white-text: #fff;
     --text-primary: #32323d;
     --text-secondary: rgba(0, 0, 0, 0.6);
+    --primary-bg: #fff;
     --color-border-default: #30363d;
     --color-canvas-default: #0d1117;
     --color-fg-default: #e6edf3;
@@ -13,9 +14,11 @@
     --active-bg: #f55874;
     --hover-bg: #f55874;
     --dark-alpha-30: rgba(0, 0, 0, 0.3);
+    --dark-alpha-80: rgba(0, 0, 0, 0.8);
     --text-item-hover: #f55874;
-    --sidebar-bg: rgba(0, 0, 0, 0.03);
+    --sidebar-bg: rgba(0, 0, 0, 0.04);
     --img-logo-app: url('../static/images/logo.png');
     --layout-header-bg: hsla(0, 0%, 100%, 0.8);
     --sticky-header-box-shadow: rgba(0, 0, 0, 0.08);
+    --border-secondary: rgba(0, 0, 0, 0.15);
 }

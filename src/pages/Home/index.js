@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import Boardgames from '../Boardgames';
 import Users from '../Users';
 import Contracts from '../Contracts';
+import ContractCreation from '../ContractCreation';
 
 function Home() {
     return (
@@ -37,6 +38,7 @@ function Home() {
                                 <Route path="/boardgames" element={<Boardgames />} />
                                 <Route path="/users" element={<Users />} />
                                 <Route path="/contracts" element={<Contracts />} />
+                                <Route path="/contracts/create" element={<ContractCreation />} />
                             </Routes>
                         </div>
                     </main>

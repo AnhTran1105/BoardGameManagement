@@ -237,6 +237,107 @@ li {
     outline: none;
 }
 
+.tippy-box[data-animation='fade'][data-state='hidden'] {
+    opacity: 0;
+}
+
+[data-tippy-root] {
+    max-width: calc(100vw - 10px);
+}
+
+.tippy-box {
+    position: relative;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+    outline: 0;
+    transition-property: transform, visibility, opacity;
+}
+
+.tippy-box[data-placement^='top'] > .tippy-arrow {
+    bottom: 0;
+}
+
+.tippy-box[data-placement^='top'] > .tippy-arrow:before {
+    bottom: -7px;
+    left: 0;
+    border-width: 8px 8px 0;
+    border-top-color: initial;
+    transform-origin: center top;
+}
+
+.tippy-box[data-placement^='bottom'] > .tippy-arrow {
+    top: 0;
+}
+
+.tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
+    top: -7px;
+    left: 0;
+    border-width: 0 8px 8px;
+    border-bottom-color: initial;
+    transform-origin: center bottom;
+}
+
+.tippy-box[data-placement^='left'] > .tippy-arrow {
+    right: 0;
+}
+
+.tippy-box[data-placement^='left'] > .tippy-arrow:before {
+    border-width: 8px 0 8px 8px;
+    border-left-color: initial;
+    right: -7px;
+    transform-origin: center left;
+}
+
+.tippy-box[data-placement^='right'] > .tippy-arrow {
+    left: 0;
+}
+
+.tippy-box[data-placement^='right'] > .tippy-arrow:before {
+    left: -7px;
+    border-width: 8px 8px 8px 0;
+    border-right-color: initial;
+    transform-origin: center right;
+}
+
+.tippy-box[data-inertia][data-state='visible'] {
+    transition-timing-function: cubic-bezier(0.54, 1.5, 0.38, 1.11);
+}
+
+.tippy-arrow {
+    width: 16px;
+    height: 16px;
+    color: #333;
+}
+
+.tippy-arrow:before {
+    content: '';
+    position: absolute;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.tippy-content {
+    position: relative;
+    padding: 5px 9px;
+    z-index: 1;
+}
+
+.tippy-box {
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.tippy-box .title {
+    font-size: 14px;
+}
+
+.tippy-box .subtitle a {
+    color: hsla(0, 0%, 100%, 0.5);
+}
+
 //---------------------------------------------Common classes-----------------------------------------
 
 .btn-primary {
@@ -269,6 +370,17 @@ li {
     text-align: center;
     cursor: pointer;
     position: relative;
+}
+
+.media {
+    align-items: center;
+    display: flex;
+    text-align: left;
+    padding: 10px;
+    border-radius: 5px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .level .level-left,
@@ -319,6 +431,84 @@ li {
 
 .is-fullhd-20 {
     width: 20%;
+}
+
+//---------------------------------------------Modal-----------------------------------------------------------
+.app-portal-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1080;
+    background-color: var(--dark-alpha-80);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal {
+        background-color: var(--primary-bg);
+        border-radius: 8px;
+        max-height: 100%;
+    }
+}
+
+.modal.is-active {
+    display: flex;
+}
+
+.modal {
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    z-index: 40;
+}
+
+.modal-content {
+    width: 460px;
+    .form {
+        padding: 16px;
+
+        label {
+            font-weight: 500;
+        }
+
+        input {
+            margin-bottom: 8px;
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+
+            .app-btn {
+                position: absolute;
+                right: -3px;
+                top: -3px;
+            }
+
+            h1 {
+                font-size: 20px;
+                font-weight: 600;
+            }
+        }
+
+        .flex-items {
+            display: flex;
+
+            > div {
+                width: 50%;
+            }
+            > div + div {
+                margin-left: 16px;
+            }
+        }
+    }
 }
 
 //---------------------------------------------Login, register page---------------------------------------------
@@ -464,7 +654,8 @@ li {
     color: var(--link-text-hover);
 }
 
-.auth-form {
+.auth-form,
+.form {
     .btn {
         margin-top: 24px;
         position: relative;
@@ -908,8 +1099,63 @@ main.app-section {
                             }
                         }
                     }
+
+                    .add-btn {
+                        &:hover {
+                            .icon {
+                                fill: var(--link-text-hover);
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+//---------------------------------------------Users page---------------------------------------------
+.list {
+    .list-header {
+        border-bottom: 1px solid var(--border-secondary);
+        height: 46px;
+        border-radius: 0;
+
+        > div {
+            font-weight: 500;
+            font-size: 15px;
+        }
+    }
+
+    .list-item {
+        .item {
+            padding: 14px 10px;
+            display: flex;
+            position: relative;
+            border-bottom: 1px solid var(--border-secondary);
+        }
+    }
+
+    .item-name {
+        width: 20%;
+    }
+
+    .item-phone-number {
+        width: 17%;
+    }
+
+    .item-gender {
+        width: 13%;
+    }
+
+    .item-birthday {
+        width: 17%;
+    }
+
+    .item-boardgames-title {
+        width: 35%;
+    }
+
+    .item-from {
+        width: 12.5%;
     }
 }
