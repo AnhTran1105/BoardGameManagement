@@ -1,6 +1,5 @@
 import Header from '~/components/layouts/Header';
 import Sidebar from '~/components/layouts/Sidebar';
-import Dashboard from '../Dashboard';
 import { Routes, Route } from 'react-router-dom';
 import Boardgames from '../Boardgames';
 import Users from '../Users';
@@ -34,7 +33,6 @@ function Home() {
                     >
                         <div className="container home-page-content">
                             <Routes>
-                                <Route path="/" element={<Dashboard />} />
                                 <Route path="/boardgames" element={<Boardgames />} />
                                 <Route path="/users" element={<Users />} />
                                 <Route path="/contracts" element={<Contracts />} />

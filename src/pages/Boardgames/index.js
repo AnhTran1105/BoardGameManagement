@@ -1,6 +1,8 @@
 import usePortal from 'react-cool-portal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Tooltip from '@tippyjs/react';
+import { getBoardgame } from '~/api-service/boardgameservice/boardgameservice';
+import axios from "axios";
 
 function Boardgames() {
     const { Portal, show, hide } = usePortal({
@@ -21,6 +23,8 @@ function Boardgames() {
         releaseDate: '',
     });
 
+    const [boardgames, setBoardgames] = useState(null);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -30,41 +34,53 @@ function Boardgames() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+        const title = formData.title;
+        const description = formData.description;
+        const imageUrl = formData.imageUrl;
+        const playerNumberMin = formData.playerNumberMin;
+        const playerNumberMax = formData.playerNumberMax;
+        const durationMin = formData.durationMin;
+        const durationMax = formData.durationMax;
+        const ageLimit = formData.ageLimit;
+        const publisher = formData.publisher;
+        const price = formData.price;
+        const releaseDate = formData.releaseDate;
+
+        const API_URL = "https://hoangvu75-zany-space-goggles-94g555x79x937v7w-8080.preview.app.github.dev/api/boardgame/";
+        const response = await axios
+            .post(API_URL + "create", {
+                title,
+                description,
+                imageUrl,
+                playerNumberMin,
+                playerNumberMax,
+                durationMin,
+                durationMax,
+                ageLimit,
+                publisher,
+                price,
+                releaseDate
+            });
+        console.log(response)
     };
 
-    const boardgames = [
-        {
-            title: 'Naruto shippuden',
-            description: 'Naruto games',
-            price: 1234.0,
-            release: '2023-06-03',
-            image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
-        },
-        {
-            title: 'Naruto shippuden',
-            description: 'Naruto games',
-            price: 1234.0,
-            release: '2023-06-03',
-            image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
-        },
-        {
-            title: 'Naruto shippuden',
-            description: 'Naruto games',
-            price: 1234.0,
-            release: '2023-06-03',
-            image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
-        },
-        {
-            title: 'Naruto shippuden',
-            description: 'Naruto games',
-            price: 1234.0,
-            release: '2023-06-03',
-            image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
-        },
-    ];
+    useEffect(() => {
+        async function fetchData() {
+            const API_URL = "https://hoangvu75-zany-space-goggles-94g555x79x937v7w-8080.preview.app.github.dev/api/boardgame/";
+            console.log("call api");
+            const response = await axios
+                .get(API_URL + "get-all");
+            setBoardgames(response.data.boardgames);
+        }
+        fetchData();
+    }, []);
+
+    if (!boardgames) {
+        return null;
+    }
+
     return (
         <div className="container pad-t-26">
             <div className="carousel-wrapper">
@@ -76,7 +92,7 @@ function Boardgames() {
                                     <div>
                                         <div className="card-image">
                                             <figure className="image">
-                                                <img src={item.image} alt="" />
+                                                <img src={item.imageUrl} alt="" />
                                             </figure>
                                             <div className="opacity "></div>
                                         </div>
