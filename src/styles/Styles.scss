@@ -131,23 +131,23 @@ h6 {
     font-weight: 400;
 }
 
-// body ::-webkit-scrollbar {
-//     width: 6px;
-// }
+body ::-webkit-scrollbar {
+    width: 6px;
+}
 
-// body ::-webkit-scrollbar-track {
-//     // -webkit-box-shadow: inset #fff;
-//     border-radius: 4px;
-// }
+body ::-webkit-scrollbar-track {
+    // -webkit-box-shadow: inset #fff;
+    border-radius: 4px;
+}
 
-// body ::-webkit-scrollbar-thumb {
-//     border-radius: 4px;
-//     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
-// }
+body ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
 
-// figure {
-//     background-color: var(--loading-bg);
-// }
+figure {
+    background-color: var(--loading-bg);
+}
 
 button,
 input,
@@ -401,7 +401,7 @@ input[type='radio']:checked::before {
         width: 120px;
         color: var(--white);
         border-radius: 100px;
-        font-weight: 400;
+        font-weight: 600;
         font-size: 12px;
         text-transform: uppercase;
         border: 1px solid var(--border-primary);
@@ -412,8 +412,12 @@ input[type='radio']:checked::before {
 
         .icon {
             margin-right: 8px;
-            fill: var(--white) !important;
+            fill: var(--white);
         }
+    }
+
+    .app-btn.large {
+        width: 180px;
     }
 
     .app-btn.danger-btn {
@@ -424,6 +428,14 @@ input[type='radio']:checked::before {
     .app-btn.success-btn {
         border-color: var(--success-bg);
         background-color: var(--success-bg);
+    }
+
+    .app-btn.normal-btn {
+        border-color: var(--text-primary);
+        color: var(--text-primary);
+        .icon {
+            fill: var(--text-primary);
+        }
     }
 
     > .app-btn + .app-btn {
@@ -524,6 +536,14 @@ input[type='radio']:checked::before {
 
 .pad-t-32 {
     padding-top: 32px;
+}
+
+.mar-t-32 {
+    margin-top: 32px;
+}
+
+.mar-b-32 {
+    margin-bottom: 32px;
 }
 
 .is-38x38 {
@@ -1044,8 +1064,18 @@ input[type='radio']:checked::before {
             display: flex;
 
             .icon {
+                fill: var(--text-primary);
+
+                .stroke-line {
+                    stroke: var(--text-primary);
+                }
+
                 &:hover {
                     fill: var(--link-text-hover);
+
+                    .stroke-line {
+                        stroke: var(--link-text-hover);
+                    }
                 }
             }
         }
@@ -1249,8 +1279,9 @@ main.app-section {
         border-radius: 0;
 
         > div {
-            font-weight: 500;
+            font-weight: 600;
             font-size: 15px;
+            color: var(--link-text-hover);
         }
     }
 
@@ -1289,5 +1320,29 @@ main.app-section {
 
     .item-address {
         width: 31%;
+    }
+}
+
+//---------------------------------------------Contract page---------------------------------------------
+
+.contract-duration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    label {
+        font-weight: 500;
+    }
+
+    input {
+        margin-top: 8px;
+    }
+
+    > .date-input {
+        width: 100%;
+    }
+
+    > .date-input + .date-input {
+        margin-left: 16px;
     }
 }

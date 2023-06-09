@@ -1,7 +1,7 @@
 import usePortal from 'react-cool-portal';
 import { useEffect, useState } from 'react';
 import Tooltip from '@tippyjs/react';
-import { getBoardgame } from '~/api-service/boardgameservice/boardgameservice';
+// import { getBoardgame } from '~/api-service/boardgameservice/boardgameservice';
 import axios from "axios";
 
 function Boardgames() {

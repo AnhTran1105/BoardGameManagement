@@ -1,41 +1,7 @@
-import usePortal from 'react-cool-portal';
-import { useState } from 'react';
 import Tooltip from '@tippyjs/react';
 import { Link } from 'react-router-dom';
 
 function Contracts() {
-    const [formData, setFormData] = useState({
-        name: { firstName: '', lastName: '' },
-        phoneNumber: '',
-        gender: '',
-        birthday: '',
-        address: '',
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        if (name === 'firstName' || name === 'lastName') {
-            setFormData((prevData) => ({
-                ...prevData,
-                name: {
-                    ...prevData.name,
-                    [name]: value,
-                },
-            }));
-        } else {
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: value,
-            }));
-        }
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-    };
-
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
@@ -46,12 +12,12 @@ function Contracts() {
                             <i className="icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
+                                    viewBox="0 0 100 100"
                                     width="24"
                                     height="24"
-                                    id="add-account"
+                                    id="add-file"
                                 >
-                                    <path d="M21,10.5H20v-1a1,1,0,0,0-2,0v1H17a1,1,0,0,0,0,2h1v1a1,1,0,0,0,2,0v-1h1a1,1,0,0,0,0-2Zm-7.7,1.72A4.92,4.92,0,0,0,15,8.5a5,5,0,0,0-10,0,4.92,4.92,0,0,0,1.7,3.72A8,8,0,0,0,2,19.5a1,1,0,0,0,2,0,6,6,0,0,1,12,0,1,1,0,0,0,2,0A8,8,0,0,0,13.3,12.22ZM10,11.5a3,3,0,1,1,3-3A3,3,0,0,1,10,11.5Z"></path>
+                                    <path d="M27 57c0-1.1.9-2 2-2h28c1.1 0 2 .9 2 2s-.9 2-2 2H29c-1.1 0-2-.9-2-2zm2-8h28c1.1 0 2-.9 2-2s-.9-2-2-2H29c-1.1 0-2 .9-2 2s.9 2 2 2zm58 28c0 9.92-8.08 18-18 18-6.23 0-11.72-3.18-14.96-8H15c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h34c.14 0 .27.01.4.04.08.02.17.05.25.08l.12.03c.09.04.17.09.26.14.03.02.06.03.08.05.11.07.21.15.31.25l21.99 21.99c.1.1.18.2.25.31.02.02.03.05.05.08.05.09.1.17.14.26l.03.12c.03.08.06.17.08.25.03.13.04.26.04.4v30.46c8 1.83 14 8.99 14 17.54zM51 27h15.17L51 11.83V27zM27 67c0-1.1.9-2 2-2h26.62c3.3-3.67 8.07-6 13.38-6V31H49c-1.1 0-2-.9-2-2V9H17v74h35.05c-.67-1.88-1.05-3.89-1.05-6 0-2.88.7-5.59 1.9-8H29c-1.1 0-2-.9-2-2zm56 10c0-7.72-6.28-14-14-14s-14 6.28-14 14 6.28 14 14 14 14-6.28 14-14zm-8-2h-4v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4h-4c-1.1 0-2 .9-2 2s.9 2 2 2h4v4c0 1.1.9 2 2 2s2-.9 2-2v-4h4c1.1 0 2-.9 2-2s-.9-2-2-2z"></path>
                                 </svg>
                             </i>
                             New
@@ -122,113 +88,6 @@ function Contracts() {
                     </li>
                 </ul>
             </div>
-            {/* <Portal>
-                <div className="app-portal-modal">
-                    <div className="modal is-active">
-                        <div role="presentation" className="modal-background">
-                            <div className="modal-content">
-                                <div className="form center">
-                                    <div className="form-header">
-                                        <h1>Create new contract</h1>
-                                        <Tooltip content="Close">
-                                            <button className="app-btn" onClick={hide}>
-                                                <i className="icon">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                        id="close"
-                                                        width="20"
-                                                        height="20"
-                                                        fill="var(--text-primary)"
-                                                    >
-                                                        <path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
-                                                    </svg>
-                                                </i>
-                                            </button>
-                                        </Tooltip>
-                                    </div>
-                                    <div className="form-body">
-                                        <form onSubmit={handleSubmit}>
-                                            <div className="flex-items">
-                                                <div>
-                                                    <label htmlFor="firstName">First name</label>
-                                                    <input
-                                                        className="form-control form-control input-block"
-                                                        name="firstName"
-                                                        type="text"
-                                                        value={formData.name.firstName}
-                                                        onChange={handleChange}
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label htmlFor="lastName">Last name</label>
-                                                    <input
-                                                        className="form-control form-control input-block"
-                                                        name="lastName"
-                                                        type="text"
-                                                        value={formData.name.lastName}
-                                                        onChange={handleChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <label htmlFor="phoneNumber">Phone number</label>
-                                            <input
-                                                className="form-control form-control input-block"
-                                                name="phoneNumber"
-                                                type="tel"
-                                                value={formData.phoneNumber}
-                                                onChange={handleChange}
-                                            />
-                                            <label htmlFor="gender">
-                                                Gender
-                                                <div className="custom-select">
-                                                    <select
-                                                        name="gender"
-                                                        value={formData.gender}
-                                                        onChange={handleChange}
-                                                        style={{ width: '100%' }}
-                                                        required
-                                                        className="form-control input-block"
-                                                    >
-                                                        <option value="">
-                                                            -- Select gender --
-                                                        </option>
-                                                        <option value="MALE">Male</option>
-                                                        <option value="FEMALE">Female</option>
-                                                    </select>
-                                                    <div className="select-arrow"></div>
-                                                </div>
-                                            </label>
-                                            <label htmlFor="birthday">Birthday</label>
-                                            <input
-                                                className="form-control input-block"
-                                                name="birthday"
-                                                type="date"
-                                                value={formData.birthday}
-                                                onChange={handleChange}
-                                            />
-                                            <label htmlFor="address">Address</label>
-                                            <input
-                                                className="form-control input-block"
-                                                name="address"
-                                                type="text"
-                                                value={formData.address}
-                                                onChange={handleChange}
-                                            />
-                                            <button
-                                                className="btn btn-primary btn-block"
-                                                type="submit"
-                                            >
-                                                Add user
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Portal> */}
         </div>
     );
 }

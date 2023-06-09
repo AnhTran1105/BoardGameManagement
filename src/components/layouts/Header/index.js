@@ -113,15 +113,14 @@ function Header() {
                                 height="24"
                                 viewBox="0 0 24 24"
                                 id="setting"
-                                fill="#000000"
                             >
                                 <g
                                     fill="none"
                                     fillRule="evenodd"
-                                    stroke="#000000"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth="1.5"
+                                    className="stroke-line"
                                     transform="translate(2.5 1.5)"
                                     style={{ transform: 'scale(1.15)' }}
                                 >
