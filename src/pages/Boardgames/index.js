@@ -66,7 +66,44 @@ function Boardgames() {
         },
     ];
     return (
-        <div className="container pad-t-26">
+        <div className="container pad-t-32">
+            <h3 className="app-section-title title is-2">
+                Board game list
+                <div className="action-btns">
+                    <Tooltip content="Create new board game">
+                        <button className="app-btn success-btn" onClick={show}>
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    id="add-account"
+                                >
+                                    <path d="M21,10.5H20v-1a1,1,0,0,0-2,0v1H17a1,1,0,0,0,0,2h1v1a1,1,0,0,0,2,0v-1h1a1,1,0,0,0,0-2Zm-7.7,1.72A4.92,4.92,0,0,0,15,8.5a5,5,0,0,0-10,0,4.92,4.92,0,0,0,1.7,3.72A8,8,0,0,0,2,19.5a1,1,0,0,0,2,0,6,6,0,0,1,12,0,1,1,0,0,0,2,0A8,8,0,0,0,13.3,12.22ZM10,11.5a3,3,0,1,1,3-3A3,3,0,0,1,10,11.5Z"></path>
+                                </svg>
+                            </i>
+                            New
+                        </button>
+                    </Tooltip>
+                    <Tooltip content="Delete board game">
+                        <button className="app-btn danger-btn">
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 32 32"
+                                    width="24"
+                                    height="24"
+                                    id="delete"
+                                >
+                                    <path d="M24.2,12.193,23.8,24.3a3.988,3.988,0,0,1-4,3.857H12.2a3.988,3.988,0,0,1-4-3.853L7.8,12.193a1,1,0,0,1,2-.066l.4,12.11a2,2,0,0,0,2,1.923h7.6a2,2,0,0,0,2-1.927l.4-12.106a1,1,0,0,1,2,.066Zm1.323-4.029a1,1,0,0,1-1,1H7.478a1,1,0,0,1,0-2h3.1a1.276,1.276,0,0,0,1.273-1.148,2.991,2.991,0,0,1,2.984-2.694h2.33a2.991,2.991,0,0,1,2.984,2.694,1.276,1.276,0,0,0,1.273,1.148h3.1A1,1,0,0,1,25.522,8.164Zm-11.936-1h4.828a3.3,3.3,0,0,1-.255-.944,1,1,0,0,0-.994-.9h-2.33a1,1,0,0,0-.994.9A3.3,3.3,0,0,1,13.586,7.164Zm1.007,15.151V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Zm4.814,0V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Z"></path>
+                                </svg>
+                            </i>
+                            Delete
+                        </button>
+                    </Tooltip>
+                </div>
+            </h3>
             <div className="carousel-wrapper">
                 <div className="carousel">
                     <div className="carousel-container">
@@ -78,7 +115,7 @@ function Boardgames() {
                                             <figure className="image">
                                                 <img src={item.image} alt="" />
                                             </figure>
-                                            <div className="opacity "></div>
+                                            {/* <div className="opacity "></div> */}
                                         </div>
                                     </div>
                                     <div className="card-content">
@@ -124,43 +161,6 @@ function Boardgames() {
                                 </div>
                             </div>
                         ))}
-                        <div className="carousel-item is-fullhd-20">
-                            <div className="boardgame-card">
-                                <div>
-                                    <div className="card-image">
-                                        <figure
-                                            className="image no-"
-                                            style={{ display: 'flex', justifyContent: 'center' }}
-                                        >
-                                            <Tooltip content="Create new board game">
-                                                <button
-                                                    className="add-btn app-btn"
-                                                    style={{ position: 'absolute', top: '36%' }}
-                                                    onClick={show}
-                                                >
-                                                    <i className="icon">
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            id="add"
-                                                            x="0"
-                                                            y="0"
-                                                            version="1.1"
-                                                            viewBox="0 0 29 29"
-                                                            width="56"
-                                                            height="56"
-                                                        >
-                                                            <path d="M14.5 27.071c-6.893 0-12.5-5.607-12.5-12.5s5.607-12.5 12.5-12.5S27 7.678 27 14.571s-5.607 12.5-12.5 12.5zm0-23c-5.79 0-10.5 4.71-10.5 10.5s4.71 10.5 10.5 10.5S25 20.36 25 14.571s-4.71-10.5-10.5-10.5z"></path>
-                                                            <path d="M14.5 21.571a1 1 0 0 1-1-1v-12a1 1 0 0 1 2 0v12a1 1 0 0 1-1 1z"></path>
-                                                            <path d="M20.5 15.571h-12a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2z"></path>
-                                                        </svg>
-                                                    </i>
-                                                </button>
-                                            </Tooltip>
-                                        </figure>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -181,7 +181,6 @@ function Boardgames() {
                                                         id="close"
                                                         width="20"
                                                         height="20"
-                                                        fill="var(--text-primary)"
                                                     >
                                                         <path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
                                                     </svg>

@@ -3,35 +3,61 @@ import { useState } from 'react';
 
 function ContractCreation() {
     const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedBoardGames, setSelectedBoardGames] = useState([]);
 
     const handleUserClick = (user) => {
         setSelectedUser(user);
     };
 
+    const handleBoardGameSelect = (boardgame) => {
+        const isAlreadySelected = selectedBoardGames.some(
+            (selectedBoardGame) => selectedBoardGame.id === boardgame.id,
+        );
+
+        if (isAlreadySelected) {
+            const updatedSelectedBoardGames = selectedBoardGames.filter(
+                (selectedBoardGame) => selectedBoardGame.id !== boardgame.id,
+            );
+            setSelectedBoardGames(updatedSelectedBoardGames);
+        } else {
+            setSelectedBoardGames((prevSelectedBoardGames) => [
+                ...prevSelectedBoardGames,
+                boardgame,
+            ]);
+        }
+    };
+
     const boardgames = [
         {
-            title: 'Naruto shippuden',
+            title: 'Naruto shippuden 1',
+            id: 1,
             description: 'Naruto games',
             price: 1234.0,
             release: '2023-06-03',
             image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
         },
         {
-            title: 'Naruto shippuden',
+            title: 'Naruto shippuden 2',
+            id: 2,
+
             description: 'Naruto games',
             price: 1234.0,
             release: '2023-06-03',
             image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
         },
         {
-            title: 'Naruto shippuden',
+            title: 'Naruto shippuden 3',
+            id: 3,
+
             description: 'Naruto games',
             price: 1234.0,
             release: '2023-06-03',
             image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
         },
         {
-            title: 'Naruto shippuden',
+            title: 'Naruto shippuden 4',
+            id: 4,
+
             description: 'Naruto games',
             price: 1234.0,
             release: '2023-06-03',
@@ -78,8 +104,8 @@ function ContractCreation() {
     ];
 
     return (
-        <div className="container pad-t-26">
-            <h1>Select user</h1>
+        <div className="container pad-t-32">
+            <h3 className="app-section-title title is-2">Select user</h3>
             <div className="list list-border">
                 <div className="media list-header">
                     <div className="item-name">Name</div>
@@ -107,29 +133,72 @@ function ContractCreation() {
                     ))}
                 </ul>
             </div>
-            <h1>Select boardgames</h1>
-            <div className="carousel-wrapper">
-                <div className="carousel">
-                    <div className="carousel-container">
-                        {boardgames.map((item, index) => (
-                            <div key={index} className="carousel-item is-fullhd-20">
-                                <div className="boardgame-card">
-                                    <div>
-                                        <div className="card-image">
-                                            <figure className="image">
-                                                <img src={item.image} alt="" />
-                                            </figure>
-                                            <div className="opacity "></div>
+            <div className="container pad-t-32">
+                <h3 className="app-section-title title is-2">Select board games</h3>
+                <div className="carousel-wrapper">
+                    <div className="carousel">
+                        <div className="carousel-container">
+                            {boardgames.map((item, index) => (
+                                <div key={index} className="carousel-item is-fullhd-20">
+                                    <div className="boardgame-card">
+                                        <div>
+                                            <div
+                                                onClick={() => handleBoardGameSelect(item)}
+                                                className="card-image"
+                                            >
+                                                <figure className="image">
+                                                    <img src={item.image} alt="" />
+                                                </figure>
+
+                                                {selectedBoardGames.some(
+                                                    (boardgame) => boardgame.id === item.id,
+                                                ) ? (
+                                                    <div className="opacity">
+                                                        <i className="icon">
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 48 48"
+                                                                width="102"
+                                                                height="102"
+                                                            >
+                                                                <path
+                                                                    fill="#92D876"
+                                                                    d="M40.6 12.1L17 35.7 7.4 26.1 4.6 29 17 41.3 43.4 14.9z"
+                                                                />
+                                                            </svg>
+                                                        </i>
+                                                    </div>
+                                                ) : (
+                                                    ''
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="card-content">
-                                        <h4 className="title is-6">
-                                            <a className="" title={item.title} href="/">
-                                                <span>
+                                        <div className="card-content">
+                                            <h4 className="title is-6">
+                                                <a className="" title={item.title} href="/">
                                                     <span>
                                                         <span>
-                                                            <span>{item.title}</span>
+                                                            <span>
+                                                                <span>{item.title}</span>
+                                                            </span>
                                                         </span>
+                                                        <span
+                                                            style={{
+                                                                position: 'fixed',
+                                                                visibility: 'hidden',
+                                                                top: '0px',
+                                                                left: '0px',
+                                                            }}
+                                                        >
+                                                            …
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                            <h3 className="mt-10 subtitle">
+                                                <span>
+                                                    <span>
+                                                        <span>{item.description}</span>
                                                     </span>
                                                     <span
                                                         style={{
@@ -142,29 +211,12 @@ function ContractCreation() {
                                                         …
                                                     </span>
                                                 </span>
-                                            </a>
-                                        </h4>
-                                        <h3 className="mt-10 subtitle">
-                                            <span>
-                                                <span>
-                                                    <span>{item.description}</span>
-                                                </span>
-                                                <span
-                                                    style={{
-                                                        position: 'fixed',
-                                                        visibility: 'hidden',
-                                                        top: '0px',
-                                                        left: '0px',
-                                                    }}
-                                                >
-                                                    …
-                                                </span>
-                                            </span>
-                                        </h3>
+                                            </h3>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

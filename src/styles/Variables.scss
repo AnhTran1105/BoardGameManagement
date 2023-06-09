@@ -13,7 +13,9 @@
     --link-text-hover: #f55874;
     --active-bg: #f55874;
     --hover-bg: #f55874;
-    --dark-alpha-30: rgba(0, 0, 0, 0.3);
+    --success-bg: #24a8af;
+    --danger-bg: #eb2a3c;
+    --dark-alpha-60: rgba(0, 0, 0, 0.6);
     --dark-alpha-80: rgba(0, 0, 0, 0.8);
     --text-item-hover: #f55874;
     --sidebar-bg: rgba(0, 0, 0, 0.04);
@@ -21,4 +23,5 @@
     --layout-header-bg: hsla(0, 0%, 100%, 0.8);
     --sticky-header-box-shadow: rgba(0, 0, 0, 0.08);
     --border-secondary: rgba(0, 0, 0, 0.15);
+    --border-primary: rgba(0, 0, 0, 0.2);
 }
