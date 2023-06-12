@@ -43,23 +43,23 @@ function SignUp() {
         const validationErrors = {};
 
         if (!formData.email) {
-            validationErrors.email = 'Vui lòng nhập email.';
+            validationErrors.email = 'Please fill out this field.';
         } else if (!isValidEmail(formData.email)) {
-            validationErrors.email = 'Email không hợp lệ.';
+            validationErrors.email = 'Email is not valid.';
         }
 
         if (!formData.name.firstName) {
-            validationErrors.firstName = 'Vui lòng nhập tên.';
+            validationErrors.firstName = 'Please fill out this field.';
         }
 
         if (!formData.name.lastName) {
-            validationErrors.lastName = 'Vui lòng nhập họ.';
+            validationErrors.lastName = 'Please fill out this field.';
         }
 
         if (!formData.phoneNumber) {
-            validationErrors.phoneNumber = 'Vui lòng nhập số điện thoại.';
+            validationErrors.phoneNumber = 'Please fill out this field.';
         } else if (!isValidPhoneNumber(formData.phoneNumber)) {
-            validationErrors.phoneNumber = 'Số điện thoại không hợp lệ.';
+            validationErrors.phoneNumber = 'Phone number is not valid.';
         }
 
         // Check for other fields and validation rules
@@ -97,7 +97,7 @@ function SignUp() {
             <main className="main-page">
                 <div className="auth-form center large">
                     <div className="auth-form-header">
-                        <h1>Đăng kí tài khoản</h1>
+                        <h1>Create an account</h1>
                     </div>
                     <div className="auth-form-body">
                         <form onSubmit={handleSubmit}>
@@ -155,7 +155,9 @@ function SignUp() {
                                     </label>
                                 </div>
                             </div>
-                            <label htmlFor="phoneNumber">Phone number</label>
+                            <label htmlFor="phoneNumber">
+                                Phone number <span className="is-required"></span>
+                            </label>
                             <input
                                 className="form-control form-control input-block"
                                 autoCapitalize="off"
@@ -220,7 +222,7 @@ function SignUp() {
                                 onChange={handleChange}
                             />
                             <label htmlFor="password">
-                                Mật khẩu <span className="is-required"></span>
+                                Password <span className="is-required"></span>
                             </label>
                             <input
                                 className="form-control input-block"
@@ -233,12 +235,12 @@ function SignUp() {
                                 className="btn btn-primary btn-block js-sign-in-button"
                                 type="submit"
                             >
-                                Đăng kí
+                                Create an account
                             </button>
                         </form>
                     </div>
                     <p className="login-callout">
-                        Đã có tài khoản? <a href="/login">Đăng nhập</a>
+                        Already have an account? <a href="/login">Login</a>
                     </p>
                 </div>
             </main>

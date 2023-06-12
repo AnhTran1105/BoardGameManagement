@@ -1,7 +1,10 @@
 import { useStore } from '~/store';
+import Tippy from '@tippyjs/react/headless';
+import { useState } from 'react';
 
 function Header() {
     const [state] = useStore();
+    const [isVisible, setVisible] = useState(false);
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString('en-US', {
         month: 'long',
@@ -133,17 +136,91 @@ function Header() {
                             </svg>
                         </i>
                     </div>
-                    <div className="avatar">
-                        <figure className="image is-38x38 is-rounded">
-                            <img src={require('~/static/images/user.png')} alt="" />
-                        </figure>
-                    </div>
-                    <div className="name">
-                        {state.loginData
-                            ? state.loginData.manager.name.firstName +
-                              ' ' +
-                              state.loginData.manager.name.lastName
-                            : ''}
+                    <div>
+                        <Tippy
+                            visible={isVisible}
+                            interactive
+                            onClickOutside={() => setVisible(false)}
+                            render={(attrs) => (
+                                <div
+                                    {...attrs}
+                                    className="menu menu-settings setting-header header-dropdown"
+                                >
+                                    <ul className="menu-list">
+                                        <li className="user-setting-account">
+                                            <div className="info">
+                                                <div className="app-avatar-frame">
+                                                    <figure className="image is-42x42 is-rounded">
+                                                        <img
+                                                            src={require('~/static/images/user.png')}
+                                                            alt=""
+                                                        />
+                                                    </figure>
+                                                </div>
+                                                <div className="right">
+                                                    <p>Signed in as</p>
+                                                    <h3>
+                                                        {state.loginData
+                                                            ? state.loginData.manager.name
+                                                                  .firstName +
+                                                              ' ' +
+                                                              state.loginData.manager.name.lastName
+                                                            : ''}
+                                                    </h3>
+                                                    <i className="icon"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <div className="line-separator"></div>
+                                        <li className="logout-header">
+                                            <button className="logout-btn">
+                                                <i className="icon">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="24"
+                                                        height="24"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        id="logout"
+                                                        style={{ transform: 'rotate(180deg)' }}
+                                                    >
+                                                        <path
+                                                            fill="url(#paint0_linear_1233_4810)"
+                                                            fillRule="evenodd"
+                                                            d="M8 4C8 3.44772 8.44772 3 9 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H9C8.44772 21 8 20.5523 8 20V17C8 16.4477 8.44772 16 9 16C9.55228 16 10 16.4477 10 17V19H20V5H10V7C10 7.55228 9.55228 8 9 8C8.44772 8 8 7.55228 8 7V4ZM7.20711 7.79289C7.59763 8.18342 7.59763 8.81658 7.20711 9.20711L5.41421 11H15C15.5523 11 16 11.4477 16 12C16 12.5523 15.5523 13 15 13H5.41421L7.20711 14.7929C7.59763 15.1834 7.59763 15.8166 7.20711 16.2071C6.81658 16.5976 6.18342 16.5976 5.79289 16.2071L2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L5.79289 7.79289C6.18342 7.40237 6.81658 7.40237 7.20711 7.79289Z"
+                                                            clipRule="evenodd"
+                                                        ></path>
+                                                        <defs>
+                                                            <linearGradient
+                                                                id="paint0_linear_1233_4810"
+                                                                x1="12"
+                                                                x2="12"
+                                                                y1="3"
+                                                                y2="21"
+                                                                gradientUnits="userSpaceOnUse"
+                                                            >
+                                                                <stop stopColor="#F857A6"></stop>
+                                                                <stop
+                                                                    offset="1"
+                                                                    stopColor="#FF585A"
+                                                                ></stop>
+                                                            </linearGradient>
+                                                        </defs>
+                                                    </svg>
+                                                </i>
+                                                <p>Sign out</p>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                        >
+                            <div className="avatar" onClick={() => setVisible(!isVisible)}>
+                                <figure className="image is-38x38 is-rounded">
+                                    <img src={require('~/static/images/user.png')} alt="" />
+                                </figure>
+                            </div>
+                        </Tippy>
                     </div>
                 </div>
             </div>

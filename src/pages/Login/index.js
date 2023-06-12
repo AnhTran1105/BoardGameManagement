@@ -18,12 +18,16 @@ function Login() {
         <div className="app-layout">
             <main className="main-page">
                 <div className="auth-form">
+                    <div className="auth-form-logo">
+                        <img src={require('../../static/images/logo-fit.png')} alt="" />
+                    </div>
                     <div className="auth-form-header">
-                        <h1>Đăng nhập</h1>
+                        <h3>Sign in to</h3>
+                        <h1>Board Game Management</h1>
                     </div>
                     <div className="auth-form-body">
                         <form acceptCharset="UTF-8" method="post" onSubmit={handleLogin}>
-                            <label htmlFor="login_field">Tên người dùng hoặc email</label>
+                            <label htmlFor="login_field">Email</label>
                             <input
                                 type="text"
                                 name="login"
@@ -37,10 +41,7 @@ function Login() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <div>
-                                <label htmlFor="password">Mật khẩu</label>
-                                <a className="forgot-password" href="/password-reset">
-                                    Quên mật khẩu?
-                                </a>
+                                <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
                                     name="password"
@@ -62,14 +63,16 @@ function Login() {
                                         className="btn btn-primary btn-block js-sign-in-button"
                                         type="submit"
                                     >
-                                        Đăng nhập
+                                        Log in
                                     </button>
                                 </NavLink>
                             </div>
                         </form>
                     </div>
                     <p className="login-callout">
-                        Chưa có tài khoản? <a href="/sign-up">Đăng kí</a>
+                        New to <b>Board Game Management</b>?
+                        <br />
+                        <a href="/sign-up">Create an account.</a>
                     </p>
                 </div>
             </main>

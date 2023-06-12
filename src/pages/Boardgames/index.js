@@ -1,13 +1,30 @@
 import usePortal from 'react-cool-portal';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Tooltip from '@tippyjs/react';
 // import { getBoardgame } from '~/api-service/boardgameservice/boardgameservice';
-import axios from "axios";
+import axios from 'axios';
 
 function Boardgames() {
     const { Portal, show, hide } = usePortal({
         defaultShow: false,
     });
+
+    const modalRef = useRef();
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                hide();
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const [formData, setFormData] = useState({
         title: '',
@@ -48,30 +65,28 @@ function Boardgames() {
         const price = formData.price;
         const releaseDate = formData.releaseDate;
 
-        const API_URL = "http://localhost:8080/api/boardgame/";
-        const response = await axios
-            .post(API_URL + "create", {
-                title,
-                description,
-                imageUrl,
-                playerNumberMin,
-                playerNumberMax,
-                durationMin,
-                durationMax,
-                ageLimit,
-                publisher,
-                price,
-                releaseDate
-            });
-        console.log(response)
+        const API_URL = 'http://localhost:8080/api/boardgame/';
+        const response = await axios.post(API_URL + 'create', {
+            title,
+            description,
+            imageUrl,
+            playerNumberMin,
+            playerNumberMax,
+            durationMin,
+            durationMax,
+            ageLimit,
+            publisher,
+            price,
+            releaseDate,
+        });
+        console.log(response);
     };
 
     useEffect(() => {
         async function fetchData() {
-            const API_URL = "http://localhost:8080/api/boardgame/";
-            console.log("call api");
-            const response = await axios
-                .get(API_URL + "get-all");
+            const API_URL = 'http://localhost:8080/api/boardgame/';
+            console.log('call api');
+            const response = await axios.get(API_URL + 'get-all');
             setBoardgames(response.data.boardgames);
         }
         fetchData();
@@ -131,7 +146,6 @@ function Boardgames() {
                                             <figure className="image">
                                                 <img src={item.imageUrl} alt="" />
                                             </figure>
-                                            {/* <div className="opacity "></div> */}
                                         </div>
                                     </div>
                                     <div className="card-content">
@@ -182,7 +196,7 @@ function Boardgames() {
             </div>
             <Portal>
                 <div className="app-portal-modal">
-                    <div className="modal is-active">
+                    <div ref={modalRef} className="modal is-active">
                         <div role="presentation" className="modal-background">
                             <div className="modal-content">
                                 <div className="form center">
