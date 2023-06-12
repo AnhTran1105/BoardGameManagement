@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { login } from '../../api-service/authservice/authservice';
 import { NavLink } from 'react-router-dom';
+import { useStore, actions } from '~/store';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [, dispatch] = useStore();
 
     const handleLogin = (e) => {
         e.preventDefault();
-        login(email, password);
+        const data = login(email, password);
+        dispatch(actions.setLoginData(data));
     };
 
     return (

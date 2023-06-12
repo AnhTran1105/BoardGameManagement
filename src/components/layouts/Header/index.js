@@ -1,4 +1,7 @@
+import { useStore } from '~/store';
+
 function Header() {
+    const [state] = useStore();
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString('en-US', {
         month: 'long',
@@ -136,7 +139,11 @@ function Header() {
                         </figure>
                     </div>
                     <div className="name">
-                        Vu Huy Hoang
+                        {state.loginData
+                            ? state.loginData.manager.name.firstName +
+                              ' ' +
+                              state.loginData.manager.name.lastName
+                            : ''}
                     </div>
                 </div>
             </div>
