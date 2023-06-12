@@ -48,7 +48,7 @@ function Boardgames() {
         const price = formData.price;
         const releaseDate = formData.releaseDate;
 
-        const API_URL = "https://hoangvu75-zany-space-goggles-94g555x79x937v7w-8080.preview.app.github.dev/api/boardgame/";
+        const API_URL = "http://localhost:8080/api/boardgame/";
         const response = await axios
             .post(API_URL + "create", {
                 title,
@@ -68,7 +68,7 @@ function Boardgames() {
 
     useEffect(() => {
         async function fetchData() {
-            const API_URL = "https://hoangvu75-zany-space-goggles-94g555x79x937v7w-8080.preview.app.github.dev/api/boardgame/";
+            const API_URL = "http://localhost:8080/api/boardgame/";
             console.log("call api");
             const response = await axios
                 .get(API_URL + "get-all");

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://hoangvu75-zany-space-goggles-94g555x79x937v7w-8080.preview.app.github.dev/api/auth/";
+const API_URL = "http://localhost:8080/api/auth/";
 
 export const login = async (email, password) => {
     const response = await axios

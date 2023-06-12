@@ -1,6 +1,7 @@
 import usePortal from 'react-cool-portal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Tooltip from '@tippyjs/react';
+import axios from "axios";
 
 function Users() {
     const { Portal, show, hide } = usePortal({
@@ -34,48 +35,79 @@ function Users() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-    };
+        const name = formData.name;
+        const phoneNumber = formData.phoneNumber;
+        const gender = formData.gender;
+        const birthday = formData.birthday;
+        const address = formData.address;
 
-    const users = [
-        {
-            name: 'Uchiha Sasuke 1',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-        {
-            name: 'Uchiha Sasuke 2',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-        {
-            name: 'Uchiha Sasuke 3',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-        {
-            name: 'Uchiha Sasuke 4',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-        {
-            name: 'Uchiha Sasuke 5',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-    ];
+        const API_URL = "http://localhost:8080/api/user/";
+        const response = await axios
+            .post(API_URL + "create", {
+                name,
+                phoneNumber,
+                gender,
+                birthday,
+                address
+            });
+        console.log(response)    };
+
+    // const users = [
+    //     {
+    //         name: 'Uchiha Sasuke 1',
+    //         phoneNumber: '0938273261',
+    //         gender: 'Male',
+    //         birthday: '2003-03-19',
+    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
+    //     },
+    //     {
+    //         name: 'Uchiha Sasuke 2',
+    //         phoneNumber: '0938273261',
+    //         gender: 'Male',
+    //         birthday: '2003-03-19',
+    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
+    //     },
+    //     {
+    //         name: 'Uchiha Sasuke 3',
+    //         phoneNumber: '0938273261',
+    //         gender: 'Male',
+    //         birthday: '2003-03-19',
+    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
+    //     },
+    //     {
+    //         name: 'Uchiha Sasuke 4',
+    //         phoneNumber: '0938273261',
+    //         gender: 'Male',
+    //         birthday: '2003-03-19',
+    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
+    //     },
+    //     {
+    //         name: 'Uchiha Sasuke 5',
+    //         phoneNumber: '0938273261',
+    //         gender: 'Male',
+    //         birthday: '2003-03-19',
+    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
+    //     },
+    // ];
+
+    const [users, setUsers] = useState(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            const API_URL = "http://localhost:8080/api/user/";
+            console.log("call api");
+            const response = await axios
+                .get(API_URL + "get-all");
+            setUsers(response.data.users);
+        }
+        fetchData();
+    }, []);
+
+    if (!users) {
+        return null;
+    }
 
     return (
         <div className="container pad-t-32">
