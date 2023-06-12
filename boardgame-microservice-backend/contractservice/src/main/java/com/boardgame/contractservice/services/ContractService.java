@@ -97,11 +97,9 @@ public class ContractService {
     }
 
     public Object delete(UUID id) {
-        Contract contract = contractRepository.findById(id).orElseThrow();
-        contractRepository.delete(contract);
+        contractRepository.deleteById(id);
 
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();
-        response.put("contract", contract);
         response.put("message", "Deleted successfully.");
         response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
 
