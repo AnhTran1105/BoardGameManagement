@@ -159,7 +159,7 @@ function Users() {
                 <ul className="list-item">
                     {users.map((user, index) => (
                         <li className="item" key={index}>
-                            <div className="item-name">{user.name}</div>
+                            <div className="item-name">{user.name.firstName} {user.name.lastName}</div>
                             <div className="item-phone-number">{user.phoneNumber}</div>
                             <div className="item-gender">{user.gender}</div>
                             <div className="item-birthday">{user.birthday}</div>

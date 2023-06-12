@@ -1,7 +1,27 @@
 import Tooltip from '@tippyjs/react';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from "axios";
 
 function Contracts() {
+
+    const [contracts, setContracts] = useState(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            const API_URL = "http://localhost:8080/api/contract/";
+            console.log("call api");
+            const response = await axios
+                .get(API_URL + "get-all");
+            setContracts(response.data.contracts);
+        }
+        fetchData();
+    }, []);
+
+    if (!contracts) {
+        return null;
+    }
+
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
@@ -50,42 +70,19 @@ function Contracts() {
                     <div className="item-to">End date</div>
                 </div>
                 <ul className="list-item">
-                    <li className="item">
-                        <div className="item-name">Nguyen Van A</div>
-                        <div className="item-name">Tran Thi B</div>
-                        <div className="item-boardgames-title">
-                            Naruto shippuden 3, Dragon Ball Z, Fairy Tails
-                        </div>
-                        <div className="item-from">2023-02-04</div>
-                        <div className="item-to">2023-04-03</div>
-                    </li>
-                    <li className="item">
-                        <div className="item-name">Nguyen Van A</div>
-                        <div className="item-name">Tran Thi B</div>
-                        <div className="item-boardgames-title">
-                            Naruto shippuden 3, Dragon Ball Z, Fairy Tails
-                        </div>
-                        <div className="item-from">2023-02-04</div>
-                        <div className="item-to">2023-04-03</div>
-                    </li>
-                    <li className="item">
-                        <div className="item-name">Nguyen Van A</div>
-                        <div className="item-name">Tran Thi B</div>
-                        <div className="item-boardgames-title">
-                            Naruto shippuden 3, Dragon Ball Z, Fairy Tails
-                        </div>
-                        <div className="item-from">2023-02-04</div>
-                        <div className="item-to">2023-04-03</div>
-                    </li>
-                    <li className="item">
-                        <div className="item-name">Nguyen Van A</div>
-                        <div className="item-name">Tran Thi B</div>
-                        <div className="item-boardgames-title">
-                            Naruto shippuden 3, Dragon Ball Z, Fairy Tails
-                        </div>
-                        <div className="item-from">2023-02-04</div>
-                        <div className="item-to">2023-04-03</div>
-                    </li>
+                    {contracts.map((item, index) => (
+                        <li key={index} className="item">
+                            <div className="item-name">{item.lessor.name.firstName}{item.lessor.name.lastName}</div>
+                            <div className="item-name">{item.lessee.name.firstName}{item.lessee.name.lastName}</div>
+                            <div className="item-boardgames-title">
+                                {item.boardgames.map((itemBoardgame, indexBoardgame) => (
+                                    <p key={indexBoardgame}>{itemBoardgame.title}</p>
+                                ))}
+                            </div>
+                            <div className="item-from">2023-02-04</div>
+                            <div className="item-to">2023-04-03</div>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>

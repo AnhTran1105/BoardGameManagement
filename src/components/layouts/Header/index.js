@@ -135,6 +135,9 @@ function Header() {
                             <img src={require('~/static/images/user.png')} alt="" />
                         </figure>
                     </div>
+                    <div className="name">
+                        Vu Huy Hoang
+                    </div>
                 </div>
             </div>
         </header>

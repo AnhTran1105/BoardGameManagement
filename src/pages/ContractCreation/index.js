@@ -1,6 +1,7 @@
 import Tooltip from '@tippyjs/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 function ContractCreation() {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -30,81 +31,55 @@ function ContractCreation() {
         }
     };
 
-    const boardgames = [
-        {
-            title: 'Naruto shippuden 1',
-            id: 1,
-            description: 'Naruto games',
-            price: 1234.0,
-            release: '2023-06-03',
-            image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
-        },
-        {
-            title: 'Naruto shippuden 2',
-            id: 2,
+    const handleContractCreate = async (e) => {
+        e.preventDefault();
+        const API_URL = "http://localhost:8080/api/contract/";
 
-            description: 'Naruto games',
-            price: 1234.0,
-            release: '2023-06-03',
-            image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
-        },
-        {
-            title: 'Naruto shippuden 3',
-            id: 3,
+        const response = await axios
+            .post(API_URL + "create", {
+                lesseeId: selectedUser.id,
+                boardgames: selectedBoardGames,
+                startAt: startDate,
+                endAt: endDate,
+            }, {
+                headers: {
+                    Authorization: `Bearer`
+                }
+            });
+        alert(response.data.message);
+        console.log(response)
+    }
 
-            description: 'Naruto games',
-            price: 1234.0,
-            release: '2023-06-03',
-            image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
-        },
-        {
-            title: 'Naruto shippuden 4',
-            id: 4,
+    const [boardgames, setBoardgames] = useState(null);
+    const [users, setUsers] = useState(null);
 
-            description: 'Naruto games',
-            price: 1234.0,
-            release: '2023-06-03',
-            image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/234670/capsule_616x353.jpg?t=1683624695',
-        },
-    ];
+    useEffect(() => {
+        async function fetchDataBoardgame() {
+            const API_URL = "http://localhost:8080/api/boardgame/";
+            console.log("call api");
+            const response = await axios
+                .get(API_URL + "get-all");
+            setBoardgames(response.data.boardgames);
+        }
+        fetchDataBoardgame();
 
-    const users = [
-        {
-            name: 'Uchiha Sasuke 1',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-        {
-            name: 'Uchiha Sasuke 2',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-        {
-            name: 'Uchiha Sasuke 3',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-        {
-            name: 'Uchiha Sasuke 4',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-        {
-            name: 'Uchiha Sasuke 5',
-            phoneNumber: '0938273261',
-            gender: 'Male',
-            birthday: '2003-03-19',
-            address: '12/34 CMT8, P15, Q.10, TPHCM',
-        },
-    ];
+        async function fetchDataUser() {
+            const API_URL = "http://localhost:8080/api/user/";
+            console.log("call api");
+            const response = await axios
+                .get(API_URL + "get-all");
+            setUsers(response.data.users);
+        }
+        fetchDataUser();
+    }, []);
+
+    if (!boardgames) {
+        return null;
+    }
+
+    if (!users) {
+        return null;
+    }
 
     return (
         <>
@@ -121,7 +96,7 @@ function ContractCreation() {
                     <ul className="list-item">
                         {users.map((user, index) => (
                             <li className="item" key={index} onClick={() => handleUserClick(user)}>
-                                <div className="item-name">{user.name}</div>
+                                <div className="item-name">{user.name.firstName}{user.name.lastName}</div>
                                 <div className="item-phone-number">{user.phoneNumber}</div>
                                 <div className="item-gender">{user.gender}</div>
                                 <div className="item-birthday">{user.birthday}</div>
@@ -152,7 +127,7 @@ function ContractCreation() {
                                                 className="card-image"
                                             >
                                                 <figure className="image">
-                                                    <img src={item.image} alt="" />
+                                                    <img src={item.imageUrl} alt="" />
                                                 </figure>
 
                                                 {selectedBoardGames.some(
@@ -262,7 +237,7 @@ function ContractCreation() {
             </div>
             <div className="action-btns mar-t-32 mar-b-32" style={{ justifyContent: 'flex-end' }}>
                 <Tooltip content="Create new contract">
-                    <Link to="/contracts/create" className="app-btn success-btn large">
+                    <Link to="/contracts/create" className="app-btn success-btn large" onClick={() => handleContractCreate()}>
                         <i className="icon">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

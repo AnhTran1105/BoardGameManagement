@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../../api-service/authservice/authservice';
+import { NavLink } from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -46,12 +47,21 @@ function Login() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
-                                <button
-                                    className="btn btn-primary btn-block js-sign-in-button"
-                                    type="submit"
+                                <NavLink
+                                    className={(navData) =>
+                                        navData.isActive
+                                            ? 'is-active app-navbar-link'
+                                            : 'app-navbar-link'
+                                    }
+                                    to="/"
                                 >
-                                    Đăng nhập
-                                </button>
+                                    <button
+                                        className="btn btn-primary btn-block js-sign-in-button"
+                                        type="submit"
+                                    >
+                                        Đăng nhập
+                                    </button>
+                                </NavLink>
                             </div>
                         </form>
                     </div>
