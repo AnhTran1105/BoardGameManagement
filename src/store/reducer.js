@@ -1,7 +1,8 @@
-import { SET_LOGIN_DATA } from './constants';
+import { SET_LOGIN_DATA, SET_SEARCH_BOARDGAMES } from './constants';
 
 const initState = {
     loginData: '',
+    searchBoardgames: '',
 };
 
 function reducer(state, action) {
@@ -10,6 +11,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 loginData: action.payload,
+            };
+        case SET_SEARCH_BOARDGAMES:
+            return {
+                ...state,
+                searchBoardgames: action.payload,
             };
 
         default:

@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import Tooltip from '@tippyjs/react';
 // import { getBoardgame } from '~/api-service/boardgameservice/boardgameservice';
 import axios from 'axios';
+import { useStore } from '~/store';
 
 function Boardgames() {
     const { Portal, show, hide } = usePortal({
@@ -10,6 +11,7 @@ function Boardgames() {
     });
 
     const modalRef = useRef();
+    const [state] = useStore();
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -40,7 +42,7 @@ function Boardgames() {
         releaseDate: '',
     });
 
-    const [boardgames, setBoardgames] = useState(null);
+    // const [boardgames, setBoardgames] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -82,15 +84,94 @@ function Boardgames() {
         console.log(response);
     };
 
-    useEffect(() => {
-        async function fetchData() {
-            const API_URL = 'http://localhost:8080/api/boardgame/';
-            console.log('call api');
-            const response = await axios.get(API_URL + 'get-all');
-            setBoardgames(response.data.boardgames);
-        }
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         const API_URL = 'http://localhost:8080/api/boardgame/';
+    //         console.log('call api');
+    //         const response = await axios.get(API_URL + 'get-all');
+    //         setBoardgames(response.data.boardgames);
+    //     }
+    //     fetchData();
+    // }, []);
+
+    const boardgameDescription = 'Naruto boardgame';
+
+    const boardgames = [
+        {
+            title: 'Naruto shippuden ultimate ninja storm revolution 1',
+            description: boardgameDescription,
+            imageUrl:
+                'https://cdn-ext.fanatical.com/production/product/1280x720/a774d35b-743d-4277-a719-55a0a01f5b1f.jpg',
+            playerNumberMin: 2,
+            playerNumberMax: 4,
+            durationMin: 15,
+            durationMax: 60,
+            ageLimit: 10,
+            publisher: 'Japanime Games, Yoka Boardgames, Yoka by Tsume',
+            price: 1500,
+            releaseDate: '2023-06-12',
+        },
+        {
+            title: 'Naruto shippuden ultimate ninja storm revolution 2',
+            description: boardgameDescription,
+            imageUrl:
+                'https://cdn-ext.fanatical.com/production/product/1280x720/a774d35b-743d-4277-a719-55a0a01f5b1f.jpg',
+            playerNumberMin: 2,
+            playerNumberMax: 4,
+            durationMin: 15,
+            durationMax: 60,
+            ageLimit: 10,
+            publisher: 'Japanime Games, Yoka Boardgames, Yoka by Tsume',
+            price: 1500,
+            releaseDate: '2023-06-12',
+        },
+        {
+            title: 'Naruto shippuden ultimate ninja storm revolution 3',
+            description: boardgameDescription,
+            imageUrl:
+                'https://cdn-ext.fanatical.com/production/product/1280x720/a774d35b-743d-4277-a719-55a0a01f5b1f.jpg',
+            playerNumberMin: 2,
+            playerNumberMax: 4,
+            durationMin: 15,
+            durationMax: 60,
+            ageLimit: 10,
+            publisher: 'Japanime Games, Yoka Boardgames, Yoka by Tsume',
+            price: 1500,
+            releaseDate: '2023-06-12',
+        },
+        {
+            title: 'Naruto shippuden ultimate ninja storm revolution 4',
+            description: boardgameDescription,
+            imageUrl:
+                'https://cdn-ext.fanatical.com/production/product/1280x720/a774d35b-743d-4277-a719-55a0a01f5b1f.jpg',
+            playerNumberMin: 2,
+            playerNumberMax: 4,
+            durationMin: 15,
+            durationMax: 60,
+            ageLimit: 10,
+            publisher: 'Japanime Games, Yoka Boardgames, Yoka by Tsume',
+            price: 1500,
+            releaseDate: '2023-06-12',
+        },
+        {
+            title: 'Naruto shippuden ultimate ninja storm revolution 5',
+            description: boardgameDescription,
+            imageUrl:
+                'https://cdn-ext.fanatical.com/production/product/1280x720/a774d35b-743d-4277-a719-55a0a01f5b1f.jpg',
+            playerNumberMin: 2,
+            playerNumberMax: 4,
+            durationMin: 15,
+            durationMax: 60,
+            ageLimit: 10,
+            publisher: 'Japanime Games, Yoka Boardgames, Yoka by Tsume',
+            price: 1500,
+            releaseDate: '2023-06-12',
+        },
+    ];
+
+    const filteredBoardGames = boardgames.filter((item) =>
+        item.title.toLowerCase().includes(state.searchBoardgames.toLowerCase()),
+    );
 
     if (!boardgames) {
         return null;
@@ -138,7 +219,7 @@ function Boardgames() {
             <div className="carousel-wrapper">
                 <div className="carousel">
                     <div className="carousel-container">
-                        {boardgames.map((item, index) => (
+                        {filteredBoardGames.map((item, index) => (
                             <div key={index} className="carousel-item is-fullhd-20">
                                 <div className="boardgame-card">
                                     <div>

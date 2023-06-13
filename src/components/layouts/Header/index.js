@@ -1,9 +1,9 @@
-import { useStore } from '~/store';
+import { useStore, actions } from '~/store';
 import Tippy from '@tippyjs/react/headless';
 import { useState } from 'react';
 
 function Header() {
-    const [state] = useStore();
+    const [state, dispatch] = useStore();
     const [isVisible, setVisible] = useState(false);
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString('en-US', {
@@ -90,6 +90,12 @@ function Header() {
                                     type="text"
                                     className="form-control z-input-placeholder"
                                     placeholder="Search here..."
+                                    value={state.setSearchBoardgames}
+                                    autoCorrect="off"
+                                    spellCheck="false"
+                                    onChange={(e) =>
+                                        dispatch(actions.setSearchBoardgames(e.target.value))
+                                    }
                                 />
                             </div>
                         </div>
