@@ -1,7 +1,8 @@
 import usePortal from 'react-cool-portal';
 import { useState, useEffect, useRef } from 'react';
 import Tooltip from '@tippyjs/react';
-import axios from 'axios';
+import axios from '../../utils/axios';
+import { useStore } from '~/store';
 
 function Users() {
     const { Portal, show, hide } = usePortal({
@@ -9,6 +10,10 @@ function Users() {
     });
 
     const modalRef = useRef();
+    const [isDeleting, setDeleting] = useState(false);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [users, setUsers] = useState(null);
+    const [state] = useStore();
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -23,6 +28,17 @@ function Users() {
             document.removeEventListener('click', handleOutsideClick);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            await axios
+                .get('user/get-all')
+                .then((response) => {
+                    setUsers(response.users);
+                })
+                .catch((error) => console.error(error));
+        })();
     }, []);
 
     const [formData, setFormData] = useState({
@@ -41,7 +57,7 @@ function Users() {
                 ...prevData,
                 name: {
                     ...prevData.name,
-                    [name]: value,
+                    [name]: value.trim(),
                 },
             }));
         } else {
@@ -60,70 +76,50 @@ function Users() {
         const birthday = formData.birthday;
         const address = formData.address;
 
-        const API_URL = 'http://localhost:8080/api/user/';
-        const response = await axios.post(API_URL + 'create', {
+        await axios.post('user/create', {
             name,
             phoneNumber,
             gender,
             birthday,
             address,
         });
-        console.log(response);
+
+        window.location.reload();
     };
 
-    // const users = [
-    //     {
-    //         name: 'Uchiha Sasuke 1',
-    //         phoneNumber: '0938273261',
-    //         gender: 'Male',
-    //         birthday: '2003-03-19',
-    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
-    //     },
-    //     {
-    //         name: 'Uchiha Sasuke 2',
-    //         phoneNumber: '0938273261',
-    //         gender: 'Male',
-    //         birthday: '2003-03-19',
-    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
-    //     },
-    //     {
-    //         name: 'Uchiha Sasuke 3',
-    //         phoneNumber: '0938273261',
-    //         gender: 'Male',
-    //         birthday: '2003-03-19',
-    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
-    //     },
-    //     {
-    //         name: 'Uchiha Sasuke 4',
-    //         phoneNumber: '0938273261',
-    //         gender: 'Male',
-    //         birthday: '2003-03-19',
-    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
-    //     },
-    //     {
-    //         name: 'Uchiha Sasuke 5',
-    //         phoneNumber: '0938273261',
-    //         gender: 'Male',
-    //         birthday: '2003-03-19',
-    //         address: '12/34 CMT8, P15, Q.10, TPHCM',
-    //     },
-    // ];
+    // const handleDeleteUsers = async () => {
+    //     await axios.post('user/delete', {
+    //         selectedUsers,
+    //     });
 
-    const [users, setUsers] = useState(null);
+    //     window.location.reload();
+    // };
 
-    useEffect(() => {
-        async function fetchData() {
-            const API_URL = 'http://localhost:8080/api/user/';
-            console.log('call api');
-            const response = await axios.get(API_URL + 'get-all');
-            setUsers(response.data.users);
+    const handleUserClick = (user) => {
+        const userExists = selectedUsers.find(
+            (selectedUser) => JSON.stringify(selectedUser) === JSON.stringify(user),
+        );
+
+        if (userExists) {
+            setSelectedUsers((prevUsers) =>
+                prevUsers.filter(
+                    (selectedUser) => JSON.stringify(selectedUser) !== JSON.stringify(user),
+                ),
+            );
+        } else {
+            setSelectedUsers((prevUsers) => [...prevUsers, user]);
         }
-        fetchData();
-    }, []);
+    };
 
     if (!users) {
         return null;
     }
+
+    const filteredUsers = users.filter((user) =>
+        (user.name.firstName + ' ' + user.name.lastName)
+            .toLowerCase()
+            .includes(state.searchUsers.toLowerCase()),
+    );
 
     return (
         <div className="container pad-t-32">
@@ -147,7 +143,10 @@ function Users() {
                         </button>
                     </Tooltip>
                     <Tooltip content="Delete user">
-                        <button className="app-btn danger-btn">
+                        <button
+                            className="app-btn normal-btn"
+                            onClick={() => setDeleting(!isDeleting)}
+                        >
                             <i className="icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -164,28 +163,94 @@ function Users() {
                     </Tooltip>
                 </div>
             </h3>
-            <div className="list list-border">
-                <div className="media list-header">
-                    <div className="item-name">Name</div>
-                    <div className="item-phone-number">Phone number</div>
-                    <div className="item-gender">Gender</div>
-                    <div className="item-birthday">Birthday</div>
-                    <div className="item-address">Address</div>
+            <div className="content-wrapper">
+                <div className="list list-border">
+                    <div className="media list-header">
+                        <div className="item-name">Name</div>
+                        <div className="item-phone-number">Phone number</div>
+                        <div className="item-gender">Gender</div>
+                        <div className="item-birthday">Birthday</div>
+                        <div className="item-address">Address</div>
+                    </div>
+                    <ul className="list-item">
+                        {filteredUsers.map((user, index) => (
+                            <li className="item" key={index}>
+                                <div className="item-name">
+                                    {user.name.firstName} {user.name.lastName}
+                                </div>
+                                <div className="item-phone-number">{user.phoneNumber}</div>
+                                <div className="item-gender">{user.gender}</div>
+                                <div className="item-birthday">{user.birthday}</div>
+                                <div className="item-address">{user.address}</div>
+                                {isDeleting ? (
+                                    <input
+                                        type="checkbox"
+                                        name="selectedUser"
+                                        className="user-select"
+                                        checked={selectedUsers.some(
+                                            (selectedUser) =>
+                                                JSON.stringify(selectedUser) ===
+                                                JSON.stringify(user),
+                                        )}
+                                        onChange={() => handleUserClick(user)}
+                                    />
+                                ) : (
+                                    ''
+                                )}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-                <ul className="list-item">
-                    {users.map((user, index) => (
-                        <li className="item" key={index}>
-                            <div className="item-name">
-                                {user.name.firstName} {user.name.lastName}
-                            </div>
-                            <div className="item-phone-number">{user.phoneNumber}</div>
-                            <div className="item-gender">{user.gender}</div>
-                            <div className="item-birthday">{user.birthday}</div>
-                            <div className="item-address">{user.address}</div>
-                        </li>
-                    ))}
-                </ul>
             </div>
+            {isDeleting ? (
+                <div
+                    className="action-btns mar-t-32 mar-b-32"
+                    style={{ justifyContent: 'flex-end' }}
+                >
+                    <Tooltip content={`Delete ${selectedUsers.length} users`}>
+                        <button
+                            className="app-btn danger-btn large"
+                            // onClick={() => handleDeleteUsers()}
+                        >
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 32 32"
+                                    width="24"
+                                    height="24"
+                                    id="delete"
+                                >
+                                    <path d="M24.2,12.193,23.8,24.3a3.988,3.988,0,0,1-4,3.857H12.2a3.988,3.988,0,0,1-4-3.853L7.8,12.193a1,1,0,0,1,2-.066l.4,12.11a2,2,0,0,0,2,1.923h7.6a2,2,0,0,0,2-1.927l.4-12.106a1,1,0,0,1,2,.066Zm1.323-4.029a1,1,0,0,1-1,1H7.478a1,1,0,0,1,0-2h3.1a1.276,1.276,0,0,0,1.273-1.148,2.991,2.991,0,0,1,2.984-2.694h2.33a2.991,2.991,0,0,1,2.984,2.694,1.276,1.276,0,0,0,1.273,1.148h3.1A1,1,0,0,1,25.522,8.164Zm-11.936-1h4.828a3.3,3.3,0,0,1-.255-.944,1,1,0,0,0-.994-.9h-2.33a1,1,0,0,0-.994.9A3.3,3.3,0,0,1,13.586,7.164Zm1.007,15.151V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Zm4.814,0V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Z"></path>
+                                </svg>
+                            </i>
+                            Delete
+                        </button>
+                    </Tooltip>
+                    <Tooltip content="Cancel all selections">
+                        <button
+                            className="app-btn normal-btn large"
+                            onClick={() => {
+                                setSelectedUsers([]);
+                            }}
+                        >
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    id="cancel"
+                                >
+                                    <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
+                                </svg>
+                            </i>
+                            Cancel
+                        </button>
+                    </Tooltip>
+                </div>
+            ) : (
+                ''
+            )}
             <Portal>
                 <div className="app-portal-modal">
                     <div className="modal is-active" ref={modalRef}>

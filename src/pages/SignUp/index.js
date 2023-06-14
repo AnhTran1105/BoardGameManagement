@@ -145,14 +145,14 @@ function SignUp() {
                                 <div>
                                     <label htmlFor="lastName">
                                         Last name <span className="is-required"></span>
-                                        <input
-                                            className="form-control form-control input-block"
-                                            name="lastName"
-                                            type="text"
-                                            value={formData.name.lastName}
-                                            onChange={handleChange}
-                                        />
                                     </label>
+                                    <input
+                                        className="form-control form-control input-block"
+                                        name="lastName"
+                                        type="text"
+                                        value={formData.name.lastName}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                             </div>
                             <label htmlFor="phoneNumber">

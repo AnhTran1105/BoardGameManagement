@@ -245,6 +245,36 @@ input[type='radio']:checked::before {
     border-radius: 50%;
 }
 
+input[type='checkbox'] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid;
+    transform: scale(var(--ggs, 1));
+    border-radius: 3px;
+}
+
+input[type='checkbox']:checked:after {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    left: 1px;
+    top: -2px;
+    width: 5px;
+    height: 10px;
+    border-width: 0 2px 2px 0;
+    border-style: solid;
+    border-color: var(--link-text-hover);
+    transform-origin: bottom left;
+    transform: rotate(40deg);
+}
+
 .app-btn[disabled] {
     box-shadow: none;
     opacity: 0.5;
@@ -661,7 +691,8 @@ input[type='radio']:checked::before {
     width: 100%;
     min-width: 768px;
     height: 100vh;
-    background-color: var(--layout-bg);
+    // background-color: var(--layout-bg);
+    background-color: #f5f7fb;
 }
 
 .main-page {
@@ -739,6 +770,7 @@ input[type='radio']:checked::before {
 
     .error-message {
         border: solid 1px #f85149;
+        color: #f85149;
         margin-bottom: 16px;
         border-radius: 6px;
         padding: 5px 12px;
@@ -791,7 +823,7 @@ input[type='radio']:checked::before {
     padding: 5px 12px;
     font-size: 14px;
     line-height: 20px;
-    color: var(--black);
+    color: var(--text-primary);
     vertical-align: middle;
     background-color: var(--white);
     background-repeat: no-repeat;
@@ -1404,7 +1436,7 @@ main.app-section {
     }
 }
 
-//---------------------------------------------Users page---------------------------------------------
+//---------------------------------------------User page---------------------------------------------
 .list {
     .list-header {
         border-bottom: 1px solid var(--border-secondary);
@@ -1478,4 +1510,9 @@ main.app-section {
     > .date-input + .date-input {
         margin-left: 16px;
     }
+}
+
+.content-wrapper {
+    background-color: #fff;
+    border-radius: 10px;
 }

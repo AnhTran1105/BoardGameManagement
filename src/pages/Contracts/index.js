@@ -1,21 +1,18 @@
 import Tooltip from '@tippyjs/react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from "axios";
+import axios from '~/utils/axios';
 
 function Contracts() {
-
     const [contracts, setContracts] = useState(null);
 
     useEffect(() => {
-        async function fetchData() {
-            const API_URL = "http://localhost:8080/api/contract/";
-            console.log("call api");
-            const response = await axios
-                .get(API_URL + "get-all");
-            setContracts(response.data.contracts);
-        }
-        fetchData();
+        (async () => {
+            await axios
+                .get('contract/get-all')
+                .then((response) => setContracts(response.contracts))
+                .catch((error) => console.error(error));
+        })();
     }, []);
 
     if (!contracts) {
@@ -44,7 +41,7 @@ function Contracts() {
                         </Link>
                     </Tooltip>
                     <Tooltip content="Delete contract">
-                        <button className="app-btn danger-btn">
+                        <button className="app-btn normal-btn">
                             <i className="icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -72,8 +69,14 @@ function Contracts() {
                 <ul className="list-item">
                     {contracts.map((item, index) => (
                         <li key={index} className="item">
-                            <div className="item-name">{item.lessor.name.firstName}{item.lessor.name.lastName}</div>
-                            <div className="item-name">{item.lessee.name.firstName}{item.lessee.name.lastName}</div>
+                            <div className="item-name">
+                                {item.lessor.name.firstName}
+                                {item.lessor.name.lastName}
+                            </div>
+                            <div className="item-name">
+                                {item.lessee.name.firstName}
+                                {item.lessee.name.lastName}
+                            </div>
                             <div className="item-boardgames-title">
                                 {item.boardgames.map((itemBoardgame, indexBoardgame) => (
                                     <p key={indexBoardgame}>{itemBoardgame.title}</p>

@@ -12,6 +12,14 @@ function Header() {
         year: 'numeric',
     });
 
+    const handleSearchQuery = (e) => {
+        if (window.location.pathname === '/users') {
+            dispatch(actions.setSearchUsers(e.target.value));
+        } else {
+            dispatch(actions.setSearchBoardgames(e.target.value));
+        }
+    };
+
     return (
         <header className="app-header">
             <div className="level">
@@ -93,9 +101,7 @@ function Header() {
                                     value={state.setSearchBoardgames}
                                     autoCorrect="off"
                                     spellCheck="false"
-                                    onChange={(e) =>
-                                        dispatch(actions.setSearchBoardgames(e.target.value))
-                                    }
+                                    onChange={(e) => handleSearchQuery(e)}
                                 />
                             </div>
                         </div>

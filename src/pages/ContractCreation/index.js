@@ -1,16 +1,50 @@
 import Tooltip from '@tippyjs/react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from "axios";
+import axios from '~/utils/axios';
 
 function ContractCreation() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedBoardGames, setSelectedBoardGames] = useState([]);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [boardgames, setBoardgames] = useState(null);
+    const [users, setUsers] = useState(null);
 
-    const handleUserClick = (user) => {
-        setSelectedUser(user);
+    useEffect(() => {
+        (async () => {
+            await axios
+                .get('boardgame/get-all')
+                .then((response) => setBoardgames(response.boardgames))
+                .catch((error) => console.error(error));
+        })();
+
+        (async () => {
+            await axios
+                .get('user/get-all')
+                .then((response) => setUsers(response.users))
+                .catch((error) => console.error(error));
+        })();
+    }, []);
+
+    const handleContractCreate = async () => {
+        await axios
+            .post(
+                'contract/create',
+                {
+                    lesseeId: selectedUser.id,
+                    boardgames: selectedBoardGames.map((boardgame) => boardgame.id),
+                    startAt: startDate,
+                    endAt: endDate,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer`,
+                    },
+                },
+            )
+            .then((response) => console.log(response))
+            .catch((error) => console.error(error));
     };
 
     const handleBoardGameSelect = (boardgame) => {
@@ -31,53 +65,7 @@ function ContractCreation() {
         }
     };
 
-    const handleContractCreate = async (e) => {
-        e.preventDefault();
-        const API_URL = "http://localhost:8080/api/contract/";
-
-        const response = await axios
-            .post(API_URL + "create", {
-                lesseeId: selectedUser.id,
-                boardgames: selectedBoardGames,
-                startAt: startDate,
-                endAt: endDate,
-            }, {
-                headers: {
-                    Authorization: `Bearer`
-                }
-            });
-        alert(response.data.message);
-        console.log(response)
-    }
-
-    const [boardgames, setBoardgames] = useState(null);
-    const [users, setUsers] = useState(null);
-
-    useEffect(() => {
-        async function fetchDataBoardgame() {
-            const API_URL = "http://localhost:8080/api/boardgame/";
-            console.log("call api");
-            const response = await axios
-                .get(API_URL + "get-all");
-            setBoardgames(response.data.boardgames);
-        }
-        fetchDataBoardgame();
-
-        async function fetchDataUser() {
-            const API_URL = "http://localhost:8080/api/user/";
-            console.log("call api");
-            const response = await axios
-                .get(API_URL + "get-all");
-            setUsers(response.data.users);
-        }
-        fetchDataUser();
-    }, []);
-
-    if (!boardgames) {
-        return null;
-    }
-
-    if (!users) {
+    if (!boardgames || !users) {
         return null;
     }
 
@@ -95,8 +83,14 @@ function ContractCreation() {
                     </div>
                     <ul className="list-item">
                         {users.map((user, index) => (
-                            <li className="item" key={index} onClick={() => handleUserClick(user)}>
-                                <div className="item-name">{user.name.firstName}{user.name.lastName}</div>
+                            <li
+                                className="item"
+                                key={index}
+                                onClick={(user) => setSelectedUser(user)}
+                            >
+                                <div className="item-name">
+                                    {user.name.firstName} {user.name.lastName}
+                                </div>
                                 <div className="item-phone-number">{user.phoneNumber}</div>
                                 <div className="item-gender">{user.gender}</div>
                                 <div className="item-birthday">{user.birthday}</div>
@@ -106,7 +100,7 @@ function ContractCreation() {
                                     name="selectedUser"
                                     className="user-select"
                                     checked={JSON.stringify(selectedUser) === JSON.stringify(user)}
-                                    onChange={() => handleUserClick(user)}
+                                    onChange={(user) => setSelectedUser(user)}
                                 />
                             </li>
                         ))}
@@ -237,7 +231,11 @@ function ContractCreation() {
             </div>
             <div className="action-btns mar-t-32 mar-b-32" style={{ justifyContent: 'flex-end' }}>
                 <Tooltip content="Create new contract">
-                    <Link to="/contracts/create" className="app-btn success-btn large" onClick={() => handleContractCreate()}>
+                    <Link
+                        to="/contracts/create"
+                        className="app-btn success-btn large"
+                        onClick={() => handleContractCreate()}
+                    >
                         <i className="icon">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,4 @@
-import { SET_LOGIN_DATA, SET_SEARCH_BOARDGAMES } from './constants';
+import { SET_LOGIN_DATA, SET_SEARCH_BOARDGAMES, SET_SEARCH_USERS } from './constants';
 
 export const setLoginData = (payload) => ({
     type: SET_LOGIN_DATA,
@@ -7,5 +7,10 @@ export const setLoginData = (payload) => ({
 
 export const setSearchBoardgames = (payload) => ({
     type: SET_SEARCH_BOARDGAMES,
+    payload,
+});
+
+export const setSearchUsers = (payload) => ({
+    type: SET_SEARCH_USERS,
     payload,
 });
