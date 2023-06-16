@@ -11,7 +11,9 @@ function Users() {
 
     const modalRef = useRef();
     const [isDeleting, setDeleting] = useState(false);
+    const [isUpdating, setUpdating] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
     const [users, setUsers] = useState(null);
     const [state] = useStore();
 
@@ -57,7 +59,7 @@ function Users() {
                 ...prevData,
                 name: {
                     ...prevData.name,
-                    [name]: value.trim(),
+                    [name]: value,
                 },
             }));
         } else {
@@ -124,7 +126,6 @@ function Users() {
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
-                User list
                 <div className="action-btns">
                     <Tooltip content="Create new user">
                         <button className="app-btn success-btn" onClick={show}>
@@ -142,10 +143,37 @@ function Users() {
                             New
                         </button>
                     </Tooltip>
+                </div>
+                <div className="action-btns">
+                    <Tooltip content="Update user">
+                        <button
+                            className="app-btn normal-btn"
+                            onClick={() => {
+                                setDeleting(false);
+                                setUpdating(!isUpdating);
+                            }}
+                        >
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    id="pencil"
+                                    width="20"
+                                    height="20"
+                                >
+                                    <path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z"></path>
+                                </svg>
+                            </i>
+                            Update
+                        </button>
+                    </Tooltip>
                     <Tooltip content="Delete user">
                         <button
                             className="app-btn normal-btn"
-                            onClick={() => setDeleting(!isDeleting)}
+                            onClick={() => {
+                                setUpdating(false);
+                                setDeleting(!isDeleting);
+                            }}
                         >
                             <i className="icon">
                                 <svg
@@ -197,6 +225,19 @@ function Users() {
                                 ) : (
                                     ''
                                 )}
+                                {isUpdating ? (
+                                    <input
+                                        type="radio"
+                                        name="selectedUser"
+                                        className="user-select"
+                                        checked={
+                                            JSON.stringify(selectedUser) === JSON.stringify(user)
+                                        }
+                                        onChange={() => setSelectedUser(user)}
+                                    />
+                                ) : (
+                                    ''
+                                )}
                             </li>
                         ))}
                     </ul>
@@ -231,6 +272,55 @@ function Users() {
                             className="app-btn normal-btn large"
                             onClick={() => {
                                 setSelectedUsers([]);
+                            }}
+                        >
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    id="cancel"
+                                >
+                                    <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
+                                </svg>
+                            </i>
+                            Cancel
+                        </button>
+                    </Tooltip>
+                </div>
+            ) : (
+                ''
+            )}
+            {isUpdating ? (
+                <div
+                    className="action-btns mar-t-32 mar-b-32"
+                    style={{ justifyContent: 'flex-end' }}
+                >
+                    <Tooltip content={`Update user`}>
+                        <button
+                            className="app-btn default-btn large"
+                            // onClick={() => handleDeleteUsers()}
+                        >
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    id="pencil"
+                                    width="20"
+                                    height="20"
+                                >
+                                    <path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z"></path>
+                                </svg>
+                            </i>
+                            Update
+                        </button>
+                    </Tooltip>
+                    <Tooltip content="Cancel selection">
+                        <button
+                            className="app-btn normal-btn large"
+                            onClick={() => {
+                                setSelectedUser();
                             }}
                         >
                             <i className="icon">

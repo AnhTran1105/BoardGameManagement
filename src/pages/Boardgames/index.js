@@ -105,22 +105,50 @@ function Boardgames() {
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
-                Board game list
                 <div className="action-btns">
                     <Tooltip content="Create new board game">
                         <button className="app-btn success-btn" onClick={show}>
                             <i className="icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
+                                    id="add"
+                                    x="0"
+                                    y="0"
+                                    version="1.1"
+                                    viewBox="0 0 29 29"
                                     width="24"
                                     height="24"
-                                    id="add-account"
                                 >
-                                    <path d="M21,10.5H20v-1a1,1,0,0,0-2,0v1H17a1,1,0,0,0,0,2h1v1a1,1,0,0,0,2,0v-1h1a1,1,0,0,0,0-2Zm-7.7,1.72A4.92,4.92,0,0,0,15,8.5a5,5,0,0,0-10,0,4.92,4.92,0,0,0,1.7,3.72A8,8,0,0,0,2,19.5a1,1,0,0,0,2,0,6,6,0,0,1,12,0,1,1,0,0,0,2,0A8,8,0,0,0,13.3,12.22ZM10,11.5a3,3,0,1,1,3-3A3,3,0,0,1,10,11.5Z"></path>
+                                    <path
+                                        fill="none"
+                                        stroke="#fff"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeMiterlimit="10"
+                                        strokeWidth="2"
+                                        d="M14.5 22V7M7 14.5h15"
+                                    ></path>
                                 </svg>
                             </i>
                             New
+                        </button>
+                    </Tooltip>
+                </div>
+                <div className="action-btns">
+                    <Tooltip content="Update board game">
+                        <button className="app-btn normal-btn">
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    id="pencil"
+                                    width="20"
+                                    height="20"
+                                >
+                                    <path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z"></path>
+                                </svg>
+                            </i>
+                            Update
                         </button>
                     </Tooltip>
                     <Tooltip content="Delete board game">

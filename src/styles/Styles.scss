@@ -456,8 +456,13 @@ input[type='checkbox']:checked:after {
     }
 
     .app-btn.success-btn {
-        border-color: var(--success-bg);
+        border-color: #1e9fa5;
         background-color: var(--success-bg);
+    }
+
+    .app-btn.default-btn {
+        border-color: var(--link-text-hover);
+        background-color: var(--active-bg);
     }
 
     .app-btn.normal-btn {
@@ -555,6 +560,13 @@ input[type='checkbox']:checked:after {
     }
 }
 
+.content-wrapper {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 6px 16px 24px 16px;
+    box-shadow: rgba(60, 64, 67, 0.15) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
 .is-rounded {
     overflow: hidden;
     border-radius: 999px !important;
@@ -628,7 +640,8 @@ input[type='checkbox']:checked:after {
 }
 
 .modal-content {
-    width: 460px;
+    width: 500px;
+
     .form {
         padding: 16px;
 
@@ -692,7 +705,7 @@ input[type='checkbox']:checked:after {
     min-width: 768px;
     height: 100vh;
     // background-color: var(--layout-bg);
-    background-color: #f5f7fb;
+    background-color: #f8f8f8;
 }
 
 .main-page {
@@ -1445,7 +1458,7 @@ main.app-section {
 
         > div {
             font-weight: 600;
-            font-size: 15px;
+            font-size: 16px;
             color: var(--link-text-hover);
         }
     }
@@ -1456,6 +1469,11 @@ main.app-section {
             display: flex;
             position: relative;
             border-bottom: 1px solid var(--border-secondary);
+
+            .user-select {
+                position: absolute;
+                right: 10px;
+            }
         }
     }
 
@@ -1510,9 +1528,4 @@ main.app-section {
     > .date-input + .date-input {
         margin-left: 16px;
     }
-}
-
-.content-wrapper {
-    background-color: #fff;
-    border-radius: 10px;
 }

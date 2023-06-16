@@ -73,38 +73,39 @@ function ContractCreation() {
         <>
             <div className="container pad-t-32">
                 <h3 className="app-section-title title is-2">Select user</h3>
-                <div className="list list-border">
-                    <div className="media list-header">
-                        <div className="item-name">Name</div>
-                        <div className="item-phone-number">Phone number</div>
-                        <div className="item-gender">Gender</div>
-                        <div className="item-birthday">Birthday</div>
-                        <div className="item-address">Address</div>
+
+                <div className="content-wrapper">
+                    <div className="list list-border">
+                        <div className="media list-header">
+                            <div className="item-name">Name</div>
+                            <div className="item-phone-number">Phone number</div>
+                            <div className="item-gender">Gender</div>
+                            <div className="item-birthday">Birthday</div>
+                            <div className="item-address">Address</div>
+                        </div>
+                        <ul className="list-item">
+                            {users.map((user, index) => (
+                                <li className="item" key={index}>
+                                    <div className="item-name">
+                                        {user.name.firstName} {user.name.lastName}
+                                    </div>
+                                    <div className="item-phone-number">{user.phoneNumber}</div>
+                                    <div className="item-gender">{user.gender}</div>
+                                    <div className="item-birthday">{user.birthday}</div>
+                                    <div className="item-address">{user.address}</div>
+                                    <input
+                                        type="radio"
+                                        name="selectedUser"
+                                        className="user-select"
+                                        checked={
+                                            JSON.stringify(selectedUser) === JSON.stringify(user)
+                                        }
+                                        onChange={() => setSelectedUser(user)}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                    <ul className="list-item">
-                        {users.map((user, index) => (
-                            <li
-                                className="item"
-                                key={index}
-                                onClick={(user) => setSelectedUser(user)}
-                            >
-                                <div className="item-name">
-                                    {user.name.firstName} {user.name.lastName}
-                                </div>
-                                <div className="item-phone-number">{user.phoneNumber}</div>
-                                <div className="item-gender">{user.gender}</div>
-                                <div className="item-birthday">{user.birthday}</div>
-                                <div className="item-address">{user.address}</div>
-                                <input
-                                    type="radio"
-                                    name="selectedUser"
-                                    className="user-select"
-                                    checked={JSON.stringify(selectedUser) === JSON.stringify(user)}
-                                    onChange={(user) => setSelectedUser(user)}
-                                />
-                            </li>
-                        ))}
-                    </ul>
                 </div>
             </div>
             <div className="container pad-t-32">
