@@ -435,6 +435,7 @@ input[type='checkbox']:checked:after {
         font-size: 12px;
         text-transform: uppercase;
         border: 1px solid var(--border-primary);
+        height: 32px;
 
         &:hover {
             filter: brightness(0.9);
@@ -1527,5 +1528,107 @@ main.app-section {
 
     > .date-input + .date-input {
         margin-left: 16px;
+    }
+}
+
+//---------------------------------------------Boardgame detail page---------------------------------------------
+.boardgame-detail-section {
+    display: flex;
+    flex-direction: row;
+
+    .media {
+        padding: 0;
+        padding-right: 12px;
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+
+        .media-left {
+            flex: 1;
+
+            .card-image {
+                box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                border-radius: 12px;
+
+                .image {
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+
+                    img {
+                        border-radius: 12px;
+                        transition: transform 0.7s;
+                    }
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    img {
+                        transform: scale(1.1) translateZ(0);
+                    }
+                }
+            }
+        }
+
+        .media-content {
+            flex: 1;
+
+            .title {
+                margin-top: 12px;
+                font-size: 18px;
+                display: flex;
+                justify-content: center;
+                line-height: 1.75;
+
+                &:hover {
+                    color: var(--link-text-hover);
+                    cursor: pointer;
+                }
+            }
+
+            .subtitle,
+            .release {
+                display: flex;
+                justify-content: center;
+                color: var(--text-secondary);
+                font-size: 14px;
+                line-height: 1.75;
+            }
+        }
+    }
+
+    .boardgame-content {
+        padding-left: 12px;
+        width: 40%;
+
+        .boardgame-content-list {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+
+            > li {
+                width: 100%;
+                display: flex;
+                padding: 14px 10px;
+                position: relative;
+                border-bottom: 1px solid var(--border-secondary);
+
+                > span {
+                    font-style: italic;
+
+                    .list-title {
+                        text-decoration: underline;
+                        color: var(--link-text-hover);
+                        font-size: 16px;
+                        margin-right: 8px;
+                        display: inline;
+
+                        font-style: normal;
+                    }
+                }
+            }
+        }
     }
 }
