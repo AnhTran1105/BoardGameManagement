@@ -46,7 +46,6 @@ function BoardgameDetail() {
                             Naruto shippuden ultimate ninja storm revolution 1
                         </h3>
                         <h1 className="subtitle">Naruto boardgame</h1>
-                        <div className="release">Release date: {formatDate('2023-06-30')}</div>
                     </div>
                 </div>
                 <div className="boardgame-content">
@@ -65,37 +64,44 @@ function BoardgameDetail() {
                             </li>
                             <li>
                                 <span>
+                                    <p className="list-title">Release date:</p>
+                                    {formatDate('2023-06-30')}
+                                </span>
+                            </li>
+                            <li>
+                                <span>
                                     <p className="list-title">Age limit:</p>10
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Minimum duration:</p>10
+                                    <p className="list-title">Minimum duration:</p>15
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Maximum duration:</p>10
+                                    <p className="list-title">Maximum duration:</p>60
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Minimum players:</p>10
+                                    <p className="list-title">Minimum players:</p>2
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Maximum players:</p>10
+                                    <p className="list-title">Maximum players:</p>4
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Create at:</p>10
+                                    <p className="list-title">Create at:</p>
+                                    {formatDate('2023-06-14T05:32:37.963+00:00'.split('T')[0])}
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Update at:</p>10
+                                    <p className="list-title">Update at:</p>null
                                 </span>
                             </li>
                         </ul>

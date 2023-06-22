@@ -300,6 +300,7 @@ function Users() {
                     <Tooltip content={`Update user`}>
                         <button
                             className="app-btn default-btn large"
+                            disabled={!selectedUser}
                             // onClick={() => handleDeleteUsers()}
                         >
                             <i className="icon">
@@ -322,6 +323,7 @@ function Users() {
                             onClick={() => {
                                 setSelectedUser();
                             }}
+                            disabled={!selectedUser}
                         >
                             <i className="icon">
                                 <svg

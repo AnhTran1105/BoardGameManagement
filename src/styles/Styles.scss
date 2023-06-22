@@ -457,8 +457,8 @@ input[type='checkbox']:checked:after {
     }
 
     .app-btn.success-btn {
-        border-color: #1e9fa5;
-        background-color: var(--success-bg);
+        border-color: var(--link-text-hover);
+        background-color: var(--active-bg);
     }
 
     .app-btn.default-btn {
@@ -746,7 +746,7 @@ input[type='checkbox']:checked:after {
 }
 
 .auth-form {
-    width: 360px;
+    width: 380px;
     margin: 0 auto;
     transform: translate(0px, -10%);
 
@@ -780,22 +780,50 @@ input[type='checkbox']:checked:after {
                 margin-left: 16px;
             }
         }
-    }
 
-    .error-message {
-        border: solid 1px #f85149;
-        color: #f85149;
-        margin-bottom: 16px;
-        border-radius: 6px;
-        padding: 5px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        .two-inputs {
+            display: flex;
+            align-items: center;
 
-        .icon {
-            fill: #f85149;
-            margin-right: 3px;
+            > div {
+                width: 100%;
+            }
+            > div + div {
+                margin-left: 16px;
+            }
         }
+    }
+}
+
+.error-message {
+    border: solid 1px #f85149;
+    color: #f85149;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .icon {
+        fill: #f85149;
+        margin-right: 2px;
+    }
+}
+
+.success-message {
+    border: solid 1px var(--success-bg);
+    color: var(--success-bg);
+    margin-bottom: 16px;
+    border-radius: 6px;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .icon {
+        fill: var(--success-bg);
+        margin-right: 2px;
     }
 }
 
@@ -1513,6 +1541,26 @@ main.app-section {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+    .duration-inputs {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        > .date-input {
+            width: 100%;
+        }
+
+        > .date-input + .date-input {
+            margin-left: 16px;
+        }
+    }
+
+    .error-message {
+        width: 100%;
+    }
 
     label {
         font-weight: 500;
@@ -1520,14 +1568,6 @@ main.app-section {
 
     input {
         margin-top: 8px;
-    }
-
-    > .date-input {
-        width: 100%;
-    }
-
-    > .date-input + .date-input {
-        margin-left: 16px;
     }
 }
 
@@ -1614,17 +1654,14 @@ main.app-section {
                 padding: 14px 10px;
                 position: relative;
                 border-bottom: 1px solid var(--border-secondary);
+                font-size: 15px;
 
                 > span {
-                    font-style: italic;
-
                     .list-title {
-                        text-decoration: underline;
                         color: var(--link-text-hover);
-                        font-size: 16px;
+                        font-size: 15px;
                         margin-right: 8px;
                         display: inline;
-
                         font-style: normal;
                     }
                 }

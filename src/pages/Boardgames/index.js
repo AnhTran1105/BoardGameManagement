@@ -171,7 +171,11 @@ function Boardgames() {
                                     </Link>
                                     <div className="card-content">
                                         <h4 className="title is-6">
-                                            <a className="" title={item.title} href="/">
+                                            <Link
+                                                className=""
+                                                title={item.title}
+                                                to={`/boardgames/${item.id}`}
+                                            >
                                                 <span>
                                                     <span>
                                                         <span>
@@ -189,7 +193,7 @@ function Boardgames() {
                                                         …
                                                     </span>
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </h4>
                                         <h3 className="mt-10 subtitle">
                                             <span>

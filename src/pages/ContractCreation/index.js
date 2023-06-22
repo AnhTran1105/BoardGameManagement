@@ -1,7 +1,7 @@
 import Tooltip from '@tippyjs/react';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from '~/utils/axios';
+import { useStore } from '~/store';
 
 function ContractCreation() {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -10,6 +10,9 @@ function ContractCreation() {
     const [endDate, setEndDate] = useState('');
     const [boardgames, setBoardgames] = useState(null);
     const [users, setUsers] = useState(null);
+    const [errors, setErrors] = useState(true);
+    const [dateError, setDateError] = useState(false);
+    const [state] = useStore();
 
     useEffect(() => {
         (async () => {
@@ -27,6 +30,14 @@ function ContractCreation() {
         })();
     }, []);
 
+    useEffect(() => {
+        if (startDate && endDate && selectedUser && selectedBoardGames.length !== 0 && !dateError) {
+            setErrors(false);
+        } else {
+            setErrors(true);
+        }
+    }, [startDate, endDate, selectedUser, selectedBoardGames, dateError]);
+
     const handleContractCreate = async () => {
         await axios
             .post(
@@ -39,7 +50,7 @@ function ContractCreation() {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer`,
+                        Authorization: `Bearer ${state.loginData.accessToken}`,
                     },
                 },
             )
@@ -65,6 +76,16 @@ function ContractCreation() {
         }
     };
 
+    const handleEndDateChange = (e) => {
+        const selectedEndDate = e.target.value;
+        if (selectedEndDate < startDate) {
+            setDateError(true);
+        } else {
+            setDateError(false);
+        }
+        setEndDate(selectedEndDate);
+    };
+
     if (!boardgames || !users) {
         return null;
     }
@@ -73,7 +94,6 @@ function ContractCreation() {
         <>
             <div className="container pad-t-32">
                 <h3 className="app-section-title title is-2">Select user</h3>
-
                 <div className="content-wrapper">
                     <div className="list list-border">
                         <div className="media list-header">
@@ -198,44 +218,64 @@ function ContractCreation() {
             <div className="container pad-t-32">
                 <h3 className="app-section-title title is-2">Select contract duration</h3>
                 <div className="contract-duration">
-                    <div className="date-input">
-                        <label htmlFor="start-date">Start date:</label>
-                        <input
-                            type="date"
-                            name="startDate"
-                            id="start-date"
-                            className="form-control form-control input-block js-password-field"
-                            autoCapitalize="off"
-                            autoCorrect="off"
-                            autoComplete="off"
-                            autoFocus="autofocus"
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
-                        />
-                    </div>
-                    <div className="date-input">
-                        <label htmlFor="end-date">End date:</label>
-                        <input
-                            type="date"
-                            name="endDate"
-                            id="end-date"
-                            className="form-control form-control input-block js-password-field"
-                            autoCapitalize="off"
-                            autoCorrect="off"
-                            autoComplete="off"
-                            autoFocus="autofocus"
-                            value={endDate}
-                            onChange={(e) => setEndDate(e.target.value)}
-                        />
+                    {dateError && (
+                        <p className="error-message">
+                            End date must be greater than start date.
+                            <i className="icon">
+                                <svg
+                                    aria-hidden="true"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    version="1.1"
+                                    width="16"
+                                    data-view-component="true"
+                                    className="octicon octicon-x"
+                                >
+                                    <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+                                </svg>
+                            </i>
+                        </p>
+                    )}
+                    <div className="duration-inputs">
+                        <div className="date-input">
+                            <label htmlFor="start-date">Start date:</label>
+                            <input
+                                type="date"
+                                name="startDate"
+                                id="start-date"
+                                className="form-control form-control input-block js-password-field"
+                                autoCapitalize="off"
+                                autoCorrect="off"
+                                autoComplete="off"
+                                autoFocus="autofocus"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                            />
+                        </div>
+                        <div className="date-input">
+                            <label htmlFor="end-date">End date:</label>
+                            <input
+                                type="date"
+                                name="endDate"
+                                id="end-date"
+                                className="form-control form-control input-block js-password-field"
+                                autoCapitalize="off"
+                                autoCorrect="off"
+                                autoComplete="off"
+                                autoFocus="autofocus"
+                                value={endDate}
+                                onChange={handleEndDateChange}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
             <div className="action-btns mar-t-32 mar-b-32" style={{ justifyContent: 'flex-end' }}>
                 <Tooltip content="Create new contract">
-                    <Link
-                        to="/contracts/create"
+                    <button
                         className="app-btn success-btn large"
                         onClick={() => handleContractCreate()}
+                        disabled={errors}
                     >
                         <i className="icon">
                             <svg
@@ -249,7 +289,7 @@ function ContractCreation() {
                             </svg>
                         </i>
                         Create
-                    </Link>
+                    </button>
                 </Tooltip>
                 <Tooltip content="Cancel">
                     <button
