@@ -8,12 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.boardgame.userservice.requests.CreateUserRequest;
 import com.boardgame.userservice.services.UserService;
@@ -42,6 +37,11 @@ public class UserController {
     @GetMapping("/find/{id}")
     public ResponseEntity<Object> find(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(userService.find(id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> delete(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(userService.delete(id));
     }
 
     @GetMapping("/get-all")
