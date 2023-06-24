@@ -34,7 +34,7 @@ public class ContractService {
     private final OnMessageSendThenReceive onMessageSendThenReceive;
 
     public Object create(CreateContractRequest request, String authorization)
-            throws InterruptedException, JsonMappingException, JsonProcessingException {
+            throws InterruptedException, JsonProcessingException {
 
         Object lessorData = onMessageSendThenReceive.getLessorData(authorization);
         Object lesseeData = onMessageSendThenReceive.getLesseeData(request.getLesseeId());

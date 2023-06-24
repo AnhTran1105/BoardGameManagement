@@ -7,12 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.boardgame.boardgameservice.requests.CreateBoardgameRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.boardgame.boardgameservice.models.Boardgame;
 import com.boardgame.boardgameservice.repositories.BoardgameRepository;
-import com.boardgame.boardgameservice.requests.CreateBoardgameRequest;
+import com.boardgame.boardgameservice.requests.UpdateBoardgameRequest;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +79,30 @@ public class BoardgameService {
 
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();
         response.put("message", "Deleted successfully.");
+        response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+
+        return response;
+    }
+
+    public Object update(UUID id, UpdateBoardgameRequest request) {
+        Boardgame boardgame = boardgameRepository.findById(id).orElseThrow();
+        boardgame.setTitle(request.getTitle());
+        boardgame.setDescription(request.getDescription());
+        boardgame.setImageUrl(request.getImageUrl());
+        boardgame.setPlayerNumberMin(request.getPlayerNumberMin());
+        boardgame.setPlayerNumberMax(request.getPlayerNumberMax());
+        boardgame.setDurationMin(request.getDurationMin());
+        boardgame.setDurationMax(request.getDurationMax());
+        boardgame.setAgeLimit(request.getAgeLimit());
+        boardgame.setPublisher(request.getPublisher());
+        boardgame.setPrice(request.getPrice());
+        boardgame.setReleaseDate(request.getReleaseDate());
+        boardgame.setUpdateAt(Timestamp.valueOf(LocalDateTime.now()));
+
+        boardgameRepository.save(boardgame);
+
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("message", "Updated successfully.");
         response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
 
         return response;
@@ -168,7 +193,7 @@ public class BoardgameService {
                 .build();
 
         Boardgame boardgame5 = Boardgame.builder()
-                .title("Naruto shippuden ultimate ninja storm 4")
+                .title("Naruto shippuden ultimate ninja storm 5")
                 .description(boardgameDescription)
                 .imageUrl("https://gamerwk.sgp1.cdn.digitaloceanspaces.com/2022/04/Ultimate-Ninja-Storm-5.jpg")
                 .playerNumberMin(2)
