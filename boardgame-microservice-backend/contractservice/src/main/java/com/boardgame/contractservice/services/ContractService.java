@@ -54,6 +54,7 @@ public class ContractService {
             boardgames.add(boardgame);
         }
 
+        System.out.println("Create contract");
         Contract contract = Contract.builder()
                 .lessor(lessor)
                 .lessee(lessee)
@@ -63,6 +64,7 @@ public class ContractService {
                 .createAt(Timestamp.valueOf(LocalDateTime.now()))
                 .updateAt(null)
                 .build();
+        System.out.println("Contract: " + contract);
 
         contractRepository.save(contract);
 
