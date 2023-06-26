@@ -95,17 +95,23 @@ function SignUp() {
     };
 
     const register = async (email, password, name, phoneNumber, gender, birthday, address) => {
-        await axios
-            .post('/auth/register', {
-                email: email,
-                password: password,
-                name: name,
-                phoneNumber: phoneNumber,
-                gender: gender,
-                birthday: birthday,
-                address: address,
-            })
-            .then((respone) => respone.data);
+        try {
+            const response = await axios
+                .post('/auth/register', {
+                    email: email,
+                    password: password,
+                    name: name,
+                    phoneNumber: phoneNumber,
+                    gender: gender,
+                    birthday: birthday,
+                    address: address,
+                })
+                .then((response) => console.log(response));
+            return response;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     };
 
     const isValidEmail = (email) => {
@@ -377,7 +383,7 @@ function SignUp() {
                         </form>
                     </div>
                     <p className="login-callout">
-                        Already have an account? <a href="/login">Login</a>
+                        Already have an account? <a href="/">Login</a>
                     </p>
                 </div>
             </main>

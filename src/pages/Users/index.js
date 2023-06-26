@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Tooltip from '@tippyjs/react';
 import axios from '../../utils/axios';
 import { useStore } from '~/store';
+import { useNavigate } from 'react-router-dom';
 
 function Users() {
     const { Portal, show, hide } = usePortal({
@@ -16,6 +17,7 @@ function Users() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [users, setUsers] = useState(null);
     const [state] = useStore();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -86,7 +88,7 @@ function Users() {
             address,
         });
 
-        window.location.reload();
+        hide();
     };
 
     // const handleDeleteUsers = async () => {
@@ -252,6 +254,7 @@ function Users() {
                         <button
                             className="app-btn danger-btn large"
                             // onClick={() => handleDeleteUsers()}
+                            disabled={selectedUsers.length === 0}
                         >
                             <i className="icon">
                                 <svg
@@ -273,6 +276,7 @@ function Users() {
                             onClick={() => {
                                 setSelectedUsers([]);
                             }}
+                            disabled={selectedUsers.length === 0}
                         >
                             <i className="icon">
                                 <svg

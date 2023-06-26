@@ -18,6 +18,7 @@ function App() {
         }
     }, [state.loggedIn, isLoggedIn]);
 
+    console.log(localStorage);
     // useEffect(() => {
     //     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     // }, [])
