@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const instance = axios.create({
     // baseURL: `${process.env.REACT_APP_BASE_URL_API}${process.env.REACT_APP_PATH_API}`,
-    baseURL: 'http://localhost:8080/api/',
+    baseURL: 'http://10.45.4.86:8080/api/',
 });
 
 // custom response
