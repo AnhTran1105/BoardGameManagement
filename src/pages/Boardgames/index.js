@@ -103,8 +103,6 @@ function Boardgames() {
         item.title.toLowerCase().includes(state.searchBoardgames.toLowerCase()),
     );
 
-    console.log(boardgames);
-
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">

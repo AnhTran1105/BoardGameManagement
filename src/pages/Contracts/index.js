@@ -2,6 +2,7 @@ import Tooltip from '@tippyjs/react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from '~/utils/axios';
+import formatDate from '~/utils/formatDate';
 
 function Contracts() {
     const [contracts, setContracts] = useState(null);
@@ -88,20 +89,22 @@ function Contracts() {
                         {contracts.map((item, index) => (
                             <li key={index} className="item">
                                 <div className="item-name">
-                                    {item.lessor.name.firstName}
-                                    {item.lessor.name.lastName}
+                                    {item.lessor.name.firstName} {item.lessor.name.lastName}
                                 </div>
                                 <div className="item-name">
-                                    {item.lessee.name.firstName}
-                                    {item.lessee.name.lastName}
+                                    {item.lessee.name.firstName} {item.lessee.name.lastName}
                                 </div>
                                 <div className="item-boardgames-title">
                                     {item.boardgames.map((itemBoardgame, indexBoardgame) => (
                                         <p key={indexBoardgame}>{itemBoardgame.title}</p>
                                     ))}
                                 </div>
-                                <div className="item-from">2023-02-04</div>
-                                <div className="item-to">2023-04-03</div>
+                                <div className="item-from">
+                                    {formatDate(item.startAt.split('T')[0])}
+                                </div>
+                                <div className="item-to">
+                                    {formatDate(item.endAt.split('T')[0])}
+                                </div>
                             </li>
                         ))}
                     </ul>

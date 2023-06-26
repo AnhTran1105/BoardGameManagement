@@ -19,6 +19,7 @@ function Login() {
             setSuccess(true);
             dispatch(actions.setLoggedIn(true));
             dispatch(actions.setLoginData(data));
+            localStorage.setItem('loginData', data);
             setTimeout(() => {
                 navigate('/');
             }, 1000);

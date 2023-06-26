@@ -2,6 +2,7 @@ import Tooltip from '@tippyjs/react';
 import { useEffect, useState } from 'react';
 import axios from '~/utils/axios';
 import { useStore } from '~/store';
+import { useNavigate } from 'react-router-dom';
 
 function ContractCreation() {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -13,6 +14,7 @@ function ContractCreation() {
     const [errors, setErrors] = useState(true);
     const [dateError, setDateError] = useState(false);
     const [state] = useStore();
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -39,8 +41,8 @@ function ContractCreation() {
     }, [startDate, endDate, selectedUser, selectedBoardGames, dateError]);
 
     const handleContractCreate = async () => {
-        await axios
-            .post(
+        try {
+            const response = await axios.post(
                 'contract/create',
                 {
                     lesseeId: selectedUser.id,
@@ -53,9 +55,23 @@ function ContractCreation() {
                         Authorization: `Bearer ${state.loginData.accessToken}`,
                     },
                 },
-            )
-            .then((response) => console.log(response))
-            .catch((error) => console.error(error));
+            );
+            return response;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const createContract = async () => {
+        const response = await handleContractCreate();
+        console.log(response);
+        if (response.message === 'Created successfully.') {
+            navigate('/contracts');
+            // window.location.reload();
+        } else {
+            alert('Error creating contract');
+        }
     };
 
     const handleBoardGameSelect = (boardgame) => {
@@ -274,7 +290,7 @@ function ContractCreation() {
                 <Tooltip content="Create new contract">
                     <button
                         className="app-btn success-btn large"
-                        onClick={() => handleContractCreate()}
+                        onClick={createContract}
                         disabled={errors}
                     >
                         <i className="icon">
@@ -297,9 +313,15 @@ function ContractCreation() {
                         onClick={() => {
                             setSelectedUser(null);
                             setSelectedBoardGames([]);
-                            setStartDate(new Date());
-                            setEndDate(new Date());
+                            setStartDate('');
+                            setEndDate('');
                         }}
+                        disabled={
+                            selectedBoardGames.length === 0 &&
+                            !selectedUser &&
+                            startDate === '' &&
+                            endDate === ''
+                        }
                     >
                         <i className="icon">
                             <svg
