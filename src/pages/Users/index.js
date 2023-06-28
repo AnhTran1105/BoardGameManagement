@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import Tooltip from '@tippyjs/react';
 import axios from '../../utils/axios';
 import { useStore } from '~/store';
-import { useNavigate } from 'react-router-dom';
 
 function Users() {
     const { Portal, show, hide } = usePortal({
@@ -13,11 +12,11 @@ function Users() {
     const modalRef = useRef();
     const [isDeleting, setDeleting] = useState(false);
     const [isUpdating, setUpdating] = useState(false);
+    const [reloadComponent, setReloadComponent] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [users, setUsers] = useState(null);
     const [state] = useStore();
-    const navigate = useNavigate();
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -43,7 +42,7 @@ function Users() {
                 })
                 .catch((error) => console.error(error));
         })();
-    }, []);
+    }, [reloadComponent]);
 
     const [formData, setFormData] = useState({
         name: { firstName: '', lastName: '' },
@@ -87,9 +86,15 @@ function Users() {
             birthday,
             address,
         });
-
         hide();
+        setReloadComponent(true);
     };
+
+    useEffect(() => {
+        if (reloadComponent) {
+            setReloadComponent(false);
+        }
+    }, [reloadComponent]);
 
     // const handleDeleteUsers = async () => {
     //     await axios.post('user/delete', {
