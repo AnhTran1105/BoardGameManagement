@@ -17,10 +17,9 @@ function Login() {
         const data = await login(email, password);
         if (data && !data.error) {
             setSuccess(true);
-            dispatch(actions.setLoginData(data));
             localStorage.setItem('loginData', JSON.stringify(data));
             setTimeout(() => {
-                dispatch(actions.setLoggedIn(true));
+                dispatch(actions.setLoginData(data));
                 navigate('/');
             }, 800);
         }

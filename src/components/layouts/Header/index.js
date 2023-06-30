@@ -20,6 +20,8 @@ function Header() {
         }
     };
 
+    const loginData = JSON.parse(localStorage.getItem('loginData'));
+
     return (
         <header className="app-header">
             <div className="level">
@@ -172,11 +174,10 @@ function Header() {
                                                 <div className="right">
                                                     <p>Signed in as</p>
                                                     <h3>
-                                                        {state.loginData
-                                                            ? state.loginData.manager.name
-                                                                  .firstName +
+                                                        {loginData
+                                                            ? loginData.manager.name.firstName +
                                                               ' ' +
-                                                              state.loginData.manager.name.lastName
+                                                              loginData.manager.name.lastName
                                                             : ''}
                                                     </h3>
                                                     <i className="icon"></i>
@@ -185,7 +186,16 @@ function Header() {
                                         </li>
                                         <div className="line-separator"></div>
                                         <li className="logout-header">
-                                            <button className="logout-btn">
+                                            <button
+                                                className="logout-btn"
+                                                style={{ width: '100%' }}
+                                                onClick={() => {
+                                                    localStorage.removeItem('loginData');
+                                                    window.location.href = `${
+                                                        window.location.origin + '/'
+                                                    }`;
+                                                }}
+                                            >
                                                 <i className="icon">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"

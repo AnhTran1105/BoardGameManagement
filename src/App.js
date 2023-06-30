@@ -3,27 +3,28 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import { useState, useEffect } from 'react';
+import { useStore } from './store';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('loginData'));
+    const [state] = useStore();
 
     useEffect(() => {
-        const loginDataJSON = localStorage.getItem('loginData');
-        const loginData = JSON.parse(loginDataJSON);
+        const loginData = state.loginData;
         if (loginData) {
             setIsLoggedIn(true);
         }
-    }, []);
-
-    console.log(localStorage);
+    }, [state.loginData]);
 
     return (
         <Router>
             <Routes>
-                {!isLoggedIn ? <Route path="/" element={<Login />} /> : ''}
-                {/* <Route path="/login" element={<Login />} /> */}
-                <Route path="/sign-up" element={<SignUp />} />
-                <Route path="*" element={<Home />} />
+                {!isLoggedIn ? (
+                    <Route path="/" element={<Login />} />
+                ) : (
+                    <Route path="*" element={<Home />} />
+                )}
+                <Route path="sign-up" element={<SignUp />} />
             </Routes>
         </Router>
     );
