@@ -1,7 +1,6 @@
 import usePortal from 'react-cool-portal';
 import { useEffect, useState, useRef } from 'react';
 import Tooltip from '@tippyjs/react';
-// import { getBoardgame } from '~/api-service/boardgameservice/boardgameservice';
 import axios from '~/utils/axios';
 import { useStore } from '~/store';
 import { Link } from 'react-router-dom';
@@ -14,6 +13,8 @@ function Boardgames() {
     const modalRef = useRef();
     const [state] = useStore();
     const [boardgames, setBoardgames] = useState(null);
+    const [selectedBoardGames, setSelectedBoardGames] = useState([]);
+    const [isDeleting, setDeleting] = useState(false);
 
     useEffect(() => {
         const handleOutsideClick = (e) => {
@@ -86,6 +87,12 @@ function Boardgames() {
         window.location.reload();
     };
 
+    const handleDelete = async () => {
+        // const response = await axios.post('boardgame/delete', {
+        //     boardgames: selectedBoardGames.map((boardgame) => boardgame.id),
+        // })
+    };
+
     useEffect(() => {
         (async () => {
             await axios
@@ -103,41 +110,69 @@ function Boardgames() {
         item.title.toLowerCase().includes(state.searchBoardgames.toLowerCase()),
     );
 
+    const handleBoardGameSelect = (boardgame) => {
+        const isAlreadySelected = selectedBoardGames.some(
+            (selectedBoardGame) => selectedBoardGame.id === boardgame.id,
+        );
+
+        if (isAlreadySelected) {
+            const updatedSelectedBoardGames = selectedBoardGames.filter(
+                (selectedBoardGame) => selectedBoardGame.id !== boardgame.id,
+            );
+            setSelectedBoardGames(updatedSelectedBoardGames);
+        } else {
+            setSelectedBoardGames((prevSelectedBoardGames) => [
+                ...prevSelectedBoardGames,
+                boardgame,
+            ]);
+        }
+    };
+
+    console.log(selectedBoardGames);
+
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
+                {isDeleting ? 'Select board games to delete' : ''}
                 <div className="action-btns">
                     <Tooltip content="Create new board game">
-                        <button className="app-btn success-btn" onClick={show}>
-                            <i className="icon">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    id="add"
-                                    x="0"
-                                    y="0"
-                                    version="1.1"
-                                    viewBox="0 0 29 29"
-                                    width="24"
-                                    height="24"
-                                >
-                                    <path
-                                        fill="none"
-                                        stroke="#fff"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="2"
-                                        d="M14.5 22V7M7 14.5h15"
-                                    ></path>
-                                </svg>
-                            </i>
-                            New
-                        </button>
+                        {!isDeleting ? (
+                            <button className="app-btn success-btn" onClick={show}>
+                                <i className="icon">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        id="add"
+                                        x="0"
+                                        y="0"
+                                        version="1.1"
+                                        viewBox="0 0 29 29"
+                                        width="24"
+                                        height="24"
+                                    >
+                                        <path
+                                            fill="none"
+                                            stroke="#fff"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeMiterlimit="10"
+                                            strokeWidth="2"
+                                            d="M14.5 22V7M7 14.5h15"
+                                        ></path>
+                                    </svg>
+                                </i>
+                                New
+                            </button>
+                        ) : (
+                            ''
+                        )}
                     </Tooltip>
                 </div>
                 <div className="action-btns">
                     <Tooltip content="Delete board game">
-                        <button className="app-btn normal-btn">
+                        <button
+                            className="app-btn normal-btn"
+                            onClick={() => setDeleting(!isDeleting)}
+                        >
                             <i className="icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -160,13 +195,47 @@ function Boardgames() {
                         {filteredBoardGames.map((item, index) => (
                             <div key={index} className="carousel-item is-fullhd-20">
                                 <div className="boardgame-card">
-                                    <Link to={`/boardgames/${item.id}`}>
-                                        <div className="card-image">
-                                            <figure className="image">
-                                                <img src={item.imageUrl} alt="" />
-                                            </figure>
+                                    {isDeleting ? (
+                                        <div>
+                                            <div
+                                                className="card-image"
+                                                onClick={() => handleBoardGameSelect(item)}
+                                            >
+                                                <figure className="image">
+                                                    <img src={item.imageUrl} alt="" />
+                                                </figure>
+                                                {selectedBoardGames.some(
+                                                    (boardgame) => boardgame.id === item.id,
+                                                ) ? (
+                                                    <div className="opacity">
+                                                        <i className="icon">
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 48 48"
+                                                                width="102"
+                                                                height="102"
+                                                            >
+                                                                <path
+                                                                    fill="#92D876"
+                                                                    d="M40.6 12.1L17 35.7 7.4 26.1 4.6 29 17 41.3 43.4 14.9z"
+                                                                />
+                                                            </svg>
+                                                        </i>
+                                                    </div>
+                                                ) : (
+                                                    ''
+                                                )}
+                                            </div>
                                         </div>
-                                    </Link>
+                                    ) : (
+                                        <Link to={`/boardgames/${item.id}`}>
+                                            <div className="card-image">
+                                                <figure className="image">
+                                                    <img src={item.imageUrl} alt="" />
+                                                </figure>
+                                            </div>
+                                        </Link>
+                                    )}
                                     <div className="card-content">
                                         <h4 className="title is-6">
                                             <Link
@@ -217,6 +286,57 @@ function Boardgames() {
                     </div>
                 </div>
             </div>
+            {isDeleting ? (
+                <div
+                    className="action-btns mar-t-32 mar-b-32"
+                    style={{ justifyContent: 'flex-end' }}
+                >
+                    <Tooltip content={`Delete ${selectedBoardGames.length} board games`}>
+                        <button
+                            className="app-btn danger-btn large"
+                            onClick={() => handleDelete()}
+                            disabled={selectedBoardGames.length === 0}
+                        >
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 32 32"
+                                    width="24"
+                                    height="24"
+                                    id="delete"
+                                >
+                                    <path d="M24.2,12.193,23.8,24.3a3.988,3.988,0,0,1-4,3.857H12.2a3.988,3.988,0,0,1-4-3.853L7.8,12.193a1,1,0,0,1,2-.066l.4,12.11a2,2,0,0,0,2,1.923h7.6a2,2,0,0,0,2-1.927l.4-12.106a1,1,0,0,1,2,.066Zm1.323-4.029a1,1,0,0,1-1,1H7.478a1,1,0,0,1,0-2h3.1a1.276,1.276,0,0,0,1.273-1.148,2.991,2.991,0,0,1,2.984-2.694h2.33a2.991,2.991,0,0,1,2.984,2.694,1.276,1.276,0,0,0,1.273,1.148h3.1A1,1,0,0,1,25.522,8.164Zm-11.936-1h4.828a3.3,3.3,0,0,1-.255-.944,1,1,0,0,0-.994-.9h-2.33a1,1,0,0,0-.994.9A3.3,3.3,0,0,1,13.586,7.164Zm1.007,15.151V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Zm4.814,0V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Z"></path>
+                                </svg>
+                            </i>
+                            Delete
+                        </button>
+                    </Tooltip>
+                    <Tooltip content="Cancel all selections">
+                        <button
+                            className="app-btn normal-btn large"
+                            onClick={() => {
+                                setSelectedBoardGames([]);
+                            }}
+                            disabled={selectedBoardGames.length === 0}
+                        >
+                            <i className="icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    id="cancel"
+                                >
+                                    <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
+                                </svg>
+                            </i>
+                            Cancel
+                        </button>
+                    </Tooltip>
+                </div>
+            ) : (
+                ''
+            )}
             <Portal>
                 <div className="app-portal-modal">
                     <div ref={modalRef} className="modal is-active">

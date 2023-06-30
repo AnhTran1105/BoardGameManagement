@@ -12,7 +12,6 @@ function Users() {
     const modalRef = useRef();
     const [isDeleting, setDeleting] = useState(false);
     const [isUpdating, setUpdating] = useState(false);
-    const [reloadComponent, setReloadComponent] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [users, setUsers] = useState(null);
@@ -42,7 +41,7 @@ function Users() {
                 })
                 .catch((error) => console.error(error));
         })();
-    }, [reloadComponent]);
+    }, []);
 
     const [formData, setFormData] = useState({
         name: { firstName: '', lastName: '' },
@@ -86,15 +85,8 @@ function Users() {
             birthday,
             address,
         });
-        hide();
-        setReloadComponent(true);
+        window.location.reload();
     };
-
-    useEffect(() => {
-        if (reloadComponent) {
-            setReloadComponent(false);
-        }
-    }, [reloadComponent]);
 
     // const handleDeleteUsers = async () => {
     //     await axios.post('user/delete', {

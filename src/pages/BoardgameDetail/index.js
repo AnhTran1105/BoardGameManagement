@@ -1,14 +1,92 @@
 import formatDate from '~/utils/formatDate';
 import Tooltip from '@tippyjs/react';
+import { useRef, useEffect, useState } from 'react';
+import usePortal from 'react-cool-portal';
+import axios from '~/utils/axios';
 
-function BoardgameDetail() {
+function BoardgameDetail({ props }) {
+    const { Portal, show, hide } = usePortal({
+        defaultShow: false,
+    });
+
+    const modalRef = useRef();
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                hide();
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        imageUrl: '',
+        playerNumberMin: '',
+        playerNumberMax: '',
+        durationMin: '',
+        durationMax: '',
+        ageLimit: '',
+        publisher: '',
+        price: '',
+        releaseDate: '',
+    });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const title = formData.title;
+        const description = formData.description;
+        const imageUrl = formData.imageUrl;
+        const playerNumberMin = formData.playerNumberMin;
+        const playerNumberMax = formData.playerNumberMax;
+        const durationMin = formData.durationMin;
+        const durationMax = formData.durationMax;
+        const ageLimit = formData.ageLimit;
+        const publisher = formData.publisher;
+        const price = formData.price;
+        const releaseDate = formData.releaseDate;
+
+        const response = await axios.post('boardgame/update', {
+            title,
+            description,
+            imageUrl,
+            playerNumberMin,
+            playerNumberMax,
+            durationMin,
+            durationMax,
+            ageLimit,
+            publisher,
+            price,
+            releaseDate,
+        });
+        console.log(response);
+
+        window.location.reload();
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
                 Board game details
                 <div className="action-btns">
                     <Tooltip content="Update board game">
-                        <button className="app-btn normal-btn">
+                        <button className="app-btn normal-btn" onClick={show}>
                             <i className="icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -107,6 +185,161 @@ function BoardgameDetail() {
                         </ul>
                     </div>
                 </div>
+                <Portal>
+                    <div className="app-portal-modal">
+                        <div ref={modalRef} className="modal is-active">
+                            <div role="presentation" className="modal-background">
+                                <div className="modal-content">
+                                    <div className="form center">
+                                        <div className="form-header">
+                                            <h1>Update board game</h1>
+                                            <Tooltip content="Close">
+                                                <button className="app-btn" onClick={hide}>
+                                                    <i className="icon">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            id="close"
+                                                            width="20"
+                                                            height="20"
+                                                        >
+                                                            <path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
+                                                        </svg>
+                                                    </i>
+                                                </button>
+                                            </Tooltip>
+                                        </div>
+                                        <div className="form-body">
+                                            <form onSubmit={handleSubmit}>
+                                                <label htmlFor="title">Title</label>
+                                                <input
+                                                    className="form-control input-block"
+                                                    name="title"
+                                                    type="text"
+                                                    value={formData.title}
+                                                    onChange={handleChange}
+                                                />
+                                                <label htmlFor="description">Description</label>
+                                                <input
+                                                    className="form-control input-block"
+                                                    name="description"
+                                                    type="text"
+                                                    value={formData.description}
+                                                    onChange={handleChange}
+                                                />
+                                                <label htmlFor="imageUrl">Link to image</label>
+                                                <input
+                                                    className="form-control input-block"
+                                                    name="imageUrl"
+                                                    type="text"
+                                                    value={formData.imageUrl}
+                                                    onChange={handleChange}
+                                                />
+                                                <div className="flex-items">
+                                                    <div>
+                                                        <label htmlFor="playerNumberMin">
+                                                            Minimum players
+                                                        </label>
+                                                        <input
+                                                            className="form-control form-control input-block"
+                                                            name="playerNumberMin"
+                                                            type="number"
+                                                            value={formData.playerNumberMin}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label htmlFor="playerNumberMax">
+                                                            Maximum players
+                                                        </label>
+                                                        <input
+                                                            className="form-control form-control input-block"
+                                                            name="playerNumberMax"
+                                                            type="number"
+                                                            value={formData.playerNumberMax}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="flex-items">
+                                                    <div>
+                                                        <label htmlFor="durationMin">
+                                                            Minimum duration
+                                                        </label>
+                                                        <input
+                                                            className="form-control form-control input-block"
+                                                            name="durationMin"
+                                                            type="number"
+                                                            value={formData.durationMin}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label htmlFor="durationMax">
+                                                            Maximum duration
+                                                        </label>
+                                                        <input
+                                                            className="form-control form-control input-block"
+                                                            name="durationMax"
+                                                            type="number"
+                                                            value={formData.durationMax}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="flex-items">
+                                                    <div>
+                                                        <label htmlFor="ageLimit">Age limit</label>
+                                                        <input
+                                                            className="form-control form-control input-block"
+                                                            name="ageLimit"
+                                                            type="number"
+                                                            value={formData.ageLimit}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label htmlFor="price">Price</label>
+                                                        <input
+                                                            className="form-control form-control input-block"
+                                                            name="price"
+                                                            type="number"
+                                                            value={formData.price}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <label htmlFor="publisher">Publisher</label>
+                                                <input
+                                                    className="form-control input-block"
+                                                    name="publisher"
+                                                    type="text"
+                                                    value={formData.publisher}
+                                                    onChange={handleChange}
+                                                />
+
+                                                <label htmlFor="releaseDate">Release date</label>
+                                                <input
+                                                    className="form-control input-block"
+                                                    name="releaseDate"
+                                                    type="date"
+                                                    value={formData.releaseDate}
+                                                    onChange={handleChange}
+                                                />
+                                                <button
+                                                    className="btn btn-primary btn-block"
+                                                    type="submit"
+                                                >
+                                                    Update board game
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Portal>
             </div>
         </div>
     );

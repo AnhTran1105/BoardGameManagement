@@ -68,7 +68,6 @@ function ContractCreation() {
         console.log(response);
         if (response.message === 'Created successfully.') {
             navigate('/contracts');
-            // window.location.reload();
         } else {
             alert('Error creating contract');
         }
