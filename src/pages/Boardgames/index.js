@@ -4,6 +4,7 @@ import Tooltip from '@tippyjs/react';
 import axios from '~/utils/axios';
 import { useStore } from '~/store';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Boardgames() {
     const { Portal, show, hide } = usePortal({
@@ -15,6 +16,7 @@ function Boardgames() {
     const [boardgames, setBoardgames] = useState(null);
     const [selectedBoardGames, setSelectedBoardGames] = useState([]);
     const [isDeleting, setDeleting] = useState(false);
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
         const handleOutsideClick = (e) => {
@@ -23,10 +25,10 @@ function Boardgames() {
             }
         };
 
-        document.addEventListener('click', handleOutsideClick);
+        document.addEventListener('mousedown', handleOutsideClick);
 
         return () => {
-            document.removeEventListener('click', handleOutsideClick);
+            document.removeEventListener('mousedown', handleOutsideClick);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -68,23 +70,34 @@ function Boardgames() {
         const price = formData.price;
         const releaseDate = formData.releaseDate;
 
-        const API_URL = 'http://localhost:8080/api/boardgame/';
-        const response = await axios.post(API_URL + 'create', {
-            title,
-            description,
-            imageUrl,
-            playerNumberMin,
-            playerNumberMax,
-            durationMin,
-            durationMax,
-            ageLimit,
-            publisher,
-            price,
-            releaseDate,
-        });
-        console.log(response);
-
-        window.location.reload();
+        await axios
+            .post('boardgame/create', {
+                title,
+                description,
+                imageUrl,
+                playerNumberMin,
+                playerNumberMax,
+                durationMin,
+                durationMax,
+                ageLimit,
+                publisher,
+                price,
+                releaseDate,
+            })
+            .then(() => {
+                toast.success('Created successfully!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    hideProgressBar: true,
+                });
+                hide();
+                setReload(!reload);
+            })
+            .catch(() => {
+                toast.error('Created fail!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    hideProgressBar: true,
+                });
+            });
     };
 
     const handleDelete = async () => {
@@ -100,7 +113,7 @@ function Boardgames() {
                 .then((response) => setBoardgames(response.boardgames))
                 .catch((error) => console.error(error));
         })();
-    }, []);
+    }, [reload]);
 
     if (!boardgames) {
         return null;

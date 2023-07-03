@@ -4,6 +4,8 @@ import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import { useState, useEffect } from 'react';
 import { useStore } from './store';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('loginData'));
@@ -26,6 +28,7 @@ function App() {
                 )}
                 <Route path="sign-up" element={<SignUp />} />
             </Routes>
+            <ToastContainer />
         </Router>
     );
 }

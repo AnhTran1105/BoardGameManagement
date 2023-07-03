@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Tooltip from '@tippyjs/react';
 import axios from '../../utils/axios';
 import { useStore } from '~/store';
+import { toast } from 'react-toastify';
 
 function Users() {
     const { Portal, show, hide } = usePortal({
@@ -15,6 +16,7 @@ function Users() {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [users, setUsers] = useState(null);
+    const [reload, setReload] = useState(false);
     const [state] = useStore();
 
     useEffect(() => {
@@ -24,10 +26,10 @@ function Users() {
             }
         };
 
-        document.addEventListener('click', handleOutsideClick);
+        document.addEventListener('mousedown', handleOutsideClick);
 
         return () => {
-            document.removeEventListener('click', handleOutsideClick);
+            document.removeEventListener('mousedown', handleOutsideClick);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -41,7 +43,7 @@ function Users() {
                 })
                 .catch((error) => console.error(error));
         })();
-    }, []);
+    }, [reload]);
 
     const [formData, setFormData] = useState({
         name: { firstName: '', lastName: '' },
@@ -70,7 +72,7 @@ function Users() {
         }
     };
 
-    const handleSubmit = async (e) => {
+    const handleCreateUser = async (e) => {
         e.preventDefault();
         const name = formData.name;
         const phoneNumber = formData.phoneNumber;
@@ -78,23 +80,44 @@ function Users() {
         const birthday = formData.birthday;
         const address = formData.address;
 
-        await axios.post('user/create', {
-            name,
-            phoneNumber,
-            gender,
-            birthday,
-            address,
-        });
-        window.location.reload();
+        await axios
+            .post('user/create', {
+                name,
+                phoneNumber,
+                gender,
+                birthday,
+                address,
+            })
+            .then(() => {
+                toast.success('Created successfully!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    hideProgressBar: true,
+                });
+                hide();
+                setReload(!reload);
+            })
+            .catch(() => {
+                toast.error('Phone number already exists!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    hideProgressBar: true,
+                });
+            });
     };
 
-    // const handleDeleteUsers = async () => {
-    //     await axios.post('user/delete', {
-    //         selectedUsers,
-    //     });
+    const handleUpdateUser = async () => {
+        setFormData((prevForm) => ({
+            ...prevForm,
+            ...selectedUser,
+        }));
+        show();
+        // await axios.post('user/delete', {
+        //     selectedUsers,
+        // });
+    };
 
-    //     window.location.reload();
-    // };
+    const handleDeleteUsers = async () => {
+        // notify();
+    };
 
     const handleUserClick = (user) => {
         const userExists = selectedUsers.find(
@@ -250,7 +273,7 @@ function Users() {
                     <Tooltip content={`Delete ${selectedUsers.length} users`}>
                         <button
                             className="app-btn danger-btn large"
-                            // onClick={() => handleDeleteUsers()}
+                            onClick={() => handleDeleteUsers()}
                             disabled={selectedUsers.length === 0}
                         >
                             <i className="icon">
@@ -302,7 +325,7 @@ function Users() {
                         <button
                             className="app-btn default-btn large"
                             disabled={!selectedUser}
-                            // onClick={() => handleDeleteUsers()}
+                            onClick={() => handleUpdateUser()}
                         >
                             <i className="icon">
                                 <svg
@@ -351,7 +374,7 @@ function Users() {
                             <div className="modal-content">
                                 <div className="form center">
                                     <div className="form-header">
-                                        <h1>Create new user</h1>
+                                        <h1>{isUpdating ? 'Update user' : 'Create new user'}</h1>
                                         <Tooltip content="Close">
                                             <button className="app-btn" onClick={hide}>
                                                 <i className="icon">
@@ -369,7 +392,7 @@ function Users() {
                                         </Tooltip>
                                     </div>
                                     <div className="form-body">
-                                        <form onSubmit={handleSubmit}>
+                                        <form onSubmit={handleCreateUser}>
                                             <div className="flex-items">
                                                 <div>
                                                     <label htmlFor="firstName">First name</label>
@@ -440,7 +463,7 @@ function Users() {
                                                 className="btn btn-primary btn-block"
                                                 type="submit"
                                             >
-                                                Add user
+                                                {isUpdating ? 'Update user' : 'Add user'}
                                             </button>
                                         </form>
                                     </div>

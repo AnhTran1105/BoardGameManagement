@@ -289,6 +289,15 @@ input[type='checkbox']:checked:after {
     outline: none;
 }
 
+.Toastify__toast {
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.Toastify__toast-container--top-center {
+    top: 2em;
+}
+
 .tippy-box[data-animation='fade'][data-state='hidden'] {
     opacity: 0;
 }

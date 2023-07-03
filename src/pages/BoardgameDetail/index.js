@@ -17,10 +17,10 @@ function BoardgameDetail({ props }) {
             }
         };
 
-        document.addEventListener('click', handleOutsideClick);
+        document.addEventListener('mousedown', handleOutsideClick);
 
         return () => {
-            document.removeEventListener('click', handleOutsideClick);
+            document.removeEventListener('mousedown', handleOutsideClick);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
