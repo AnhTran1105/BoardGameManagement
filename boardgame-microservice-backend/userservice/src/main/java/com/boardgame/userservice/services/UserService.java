@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.boardgame.userservice.requests.UpdateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +64,7 @@ public class UserService {
 
         return response;
     }
+
     public Object getAll() {
         List<User> users = userRepository.findAll();
 
@@ -73,4 +75,23 @@ public class UserService {
 
         return response;
     }
+
+    public Object update(UUID id, UpdateUserRequest request) {
+        User user = userRepository.findById(id).orElseThrow();
+        user.setName(new Name(request.getName().getFirstName(), request.getName().getLastName()));
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setGender(request.getGender());
+        user.setBirthday(request.getBirthday());
+        user.setAddress(request.getAddress());
+        user.setUpdateAt(Timestamp.valueOf(LocalDateTime.now()));
+
+        userRepository.save(user);
+
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("message", "Updated successfully.");
+        response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+
+        return response;
+    }
+
 }

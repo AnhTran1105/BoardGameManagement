@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.boardgame.userservice.requests.UpdateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,18 @@ public class UserController {
     public ResponseEntity<Object> getAll() {
         return ResponseEntity.ok(userService.getAll());
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Object> update(
+            @PathVariable("id") UUID id,
+            @Valid @RequestBody UpdateUserRequest request,
+            BindingResult bindingResult) {
+
+        checkForValidation(bindingResult);
+
+        return ResponseEntity.ok(userService.update(id, request));
+    }
+
 
     private void checkForValidation(BindingResult bindingResult) {
 
