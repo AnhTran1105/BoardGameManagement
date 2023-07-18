@@ -34,7 +34,7 @@ public class ContractService {
     private final OnMessageSendThenReceive onMessageSendThenReceive;
 
     public Object create(CreateContractRequest request, String authorization)
-            throws InterruptedException, JsonMappingException, JsonProcessingException {
+            throws InterruptedException, JsonProcessingException {
 
         Object lessorData = onMessageSendThenReceive.getLessorData(authorization);
         Object lesseeData = onMessageSendThenReceive.getLesseeData(request.getLesseeId());
@@ -54,6 +54,7 @@ public class ContractService {
             boardgames.add(boardgame);
         }
 
+        System.out.println("Create contract");
         Contract contract = Contract.builder()
                 .lessor(lessor)
                 .lessee(lessee)
@@ -63,6 +64,7 @@ public class ContractService {
                 .createAt(Timestamp.valueOf(LocalDateTime.now()))
                 .updateAt(null)
                 .build();
+        System.out.println("Contract: " + contract);
 
         contractRepository.save(contract);
 
@@ -97,11 +99,9 @@ public class ContractService {
     }
 
     public Object delete(UUID id) {
-        Contract contract = contractRepository.findById(id).orElseThrow();
-        contractRepository.delete(contract);
+        contractRepository.deleteById(id);
 
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();
-        response.put("contract", contract);
         response.put("message", "Deleted successfully.");
         response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
 
