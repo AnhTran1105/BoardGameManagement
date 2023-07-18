@@ -6,6 +6,7 @@ import Users from '../Users';
 import Contracts from '../Contracts';
 import ContractCreation from '../ContractCreation';
 import BoardgameDetail from '../BoardgameDetail';
+import Dashboard from '../Dashboard';
 
 function Home() {
     return (
@@ -34,6 +35,7 @@ function Home() {
                     >
                         <div className="container home-page-content">
                             <Routes>
+                                <Route path="/" element={<Dashboard />} />
                                 <Route path="/boardgames" element={<Boardgames />} />
                                 <Route path="/boardgames/:id" element={<BoardgameDetail />} />
                                 <Route path="/users" element={<Users />} />

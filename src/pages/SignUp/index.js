@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import axios from '~/utils/axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -106,10 +109,32 @@ function SignUp() {
                     birthday: birthday,
                     address: address,
                 })
-                .then((response) => console.log(response));
+                .then((response) => {
+                    if (response.message === 'Registered successfully.') {
+                        toast.success('Registered successfully!', {
+                            position: toast.POSITION.TOP_CENTER,
+                            hideProgressBar: true,
+                        });
+                        const timeout = setTimeout(() => navigate('/login'), 2000);
+                        clearTimeout(timeout);
+                    } else {
+                        console.log(response);
+                    }
+                });
             return response;
         } catch (error) {
-            console.error(error);
+            console.log(error);
+            if (
+                error.message ===
+                'could not execute statement; SQL [n/a]; constraint [uk_jvf7qotkd9nf1sn3sokwnfiv4]'
+            ) {
+                toast.error('Phone number already exists!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    hideProgressBar: true,
+                });
+            } else {
+                console.error(error);
+            }
             return null;
         }
     };

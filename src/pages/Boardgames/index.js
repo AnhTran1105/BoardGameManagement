@@ -141,8 +141,6 @@ function Boardgames() {
         }
     };
 
-    console.log(selectedBoardGames);
-
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
