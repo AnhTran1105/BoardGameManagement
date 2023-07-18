@@ -123,9 +123,8 @@ function SignUp() {
                 });
             return response;
         } catch (error) {
-            console.log(error);
             if (
-                error.message ===
+                error.response.data.message ===
                 'could not execute statement; SQL [n/a]; constraint [uk_jvf7qotkd9nf1sn3sokwnfiv4]'
             ) {
                 toast.error('Phone number already exists!', {

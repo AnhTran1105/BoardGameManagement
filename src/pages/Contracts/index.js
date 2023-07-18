@@ -6,6 +6,7 @@ import formatDate from '~/utils/formatDate';
 
 function Contracts() {
     const [contracts, setContracts] = useState(null);
+    const [isDeleting, setDeleting] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -23,6 +24,7 @@ function Contracts() {
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
+                {isDeleting ? 'Select board games to delete' : ''}
                 <div className="action-btns">
                     <Tooltip content="Create new contract">
                         <Link to="/contracts/create" className="app-btn success-btn">

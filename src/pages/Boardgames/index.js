@@ -37,13 +37,13 @@ function Boardgames() {
         title: '',
         description: '',
         imageUrl: '',
-        playerNumberMin: '',
-        playerNumberMax: '',
-        durationMin: '',
-        durationMax: '',
-        ageLimit: '',
+        playerNumberMin: 1,
+        playerNumberMax: 4,
+        durationMin: 30,
+        durationMax: 180,
+        ageLimit: 12,
         publisher: '',
-        price: '',
+        price: 1000,
         releaseDate: '',
     });
 
@@ -70,40 +70,63 @@ function Boardgames() {
         const price = formData.price;
         const releaseDate = formData.releaseDate;
 
-        await axios
-            .post('boardgame/create', {
-                title,
-                description,
-                imageUrl,
-                playerNumberMin,
-                playerNumberMax,
-                durationMin,
-                durationMax,
-                ageLimit,
-                publisher,
-                price,
-                releaseDate,
-            })
-            .then(() => {
-                toast.success('Created successfully!', {
-                    position: toast.POSITION.TOP_CENTER,
-                    hideProgressBar: true,
+        if (validateImageLink(imageUrl)) {
+            await axios
+                .post('boardgame/create', {
+                    title,
+                    description,
+                    imageUrl,
+                    playerNumberMin,
+                    playerNumberMax,
+                    durationMin,
+                    durationMax,
+                    ageLimit,
+                    publisher,
+                    price,
+                    releaseDate,
+                })
+                .then(() => {
+                    toast.success('Created successfully!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                    hide();
+                    setReload(!reload);
+                })
+                .catch(() => {
+                    toast.error('Created fail!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
                 });
-                hide();
-                setReload(!reload);
-            })
-            .catch(() => {
-                toast.error('Created fail!', {
-                    position: toast.POSITION.TOP_CENTER,
-                    hideProgressBar: true,
-                });
+        } else {
+            toast.error('The image link must have a maximum length of 255 characters!', {
+                position: toast.POSITION.TOP_CENTER,
+                hideProgressBar: true,
             });
+        }
     };
 
     const handleDelete = async () => {
         // const response = await axios.post('boardgame/delete', {
         //     boardgames: selectedBoardGames.map((boardgame) => boardgame.id),
         // })
+    };
+
+    const validateImageLink = (link) => {
+        if (typeof link !== 'string') {
+            return false;
+        }
+
+        if (link.length >= 255) {
+            return false;
+        }
+        const imageRegex = /\.(jpeg|jpg|gif|png|svg)$/i;
+        if (!imageRegex.test(link)) {
+            return false;
+        }
+
+        return true;
     };
 
     useEffect(() => {
