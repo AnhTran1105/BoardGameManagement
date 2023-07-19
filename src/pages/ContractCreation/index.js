@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from '~/utils/axios';
 import { useStore } from '~/store';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function ContractCreation() {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -53,6 +54,7 @@ function ContractCreation() {
                 {
                     headers: {
                         Authorization: `Bearer ${state.loginData.accessToken}`,
+                        'content-type': 'application/json',
                     },
                 },
             );
@@ -68,6 +70,10 @@ function ContractCreation() {
         console.log(response);
         if (response.message === 'Created successfully.') {
             navigate('/contracts');
+            toast.success('Created successfully!', {
+                position: toast.POSITION.TOP_CENTER,
+                hideProgressBar: true,
+            });
         } else {
             alert('Error creating contract');
         }

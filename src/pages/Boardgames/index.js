@@ -114,15 +114,7 @@ function Boardgames() {
     };
 
     const validateImageLink = (link) => {
-        if (typeof link !== 'string') {
-            return false;
-        }
-
         if (link.length >= 255) {
-            return false;
-        }
-        const imageRegex = /\.(jpeg|jpg|gif|png|svg)$/i;
-        if (!imageRegex.test(link)) {
             return false;
         }
 
@@ -167,7 +159,6 @@ function Boardgames() {
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
-                {isDeleting ? 'Select board games to delete' : ''}
                 <div className="action-btns">
                     <Tooltip content="Create new board game">
                         {!isDeleting ? (
