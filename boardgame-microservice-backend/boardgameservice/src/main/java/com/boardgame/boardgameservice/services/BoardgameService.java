@@ -84,6 +84,16 @@ public class BoardgameService {
         return response;
     }
 
+    public Object deleteMultiple(List<UUID> ids) {
+        ids.forEach(boardgameRepository::deleteById);
+
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("message", "Deleted successfully.");
+        response.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+
+        return response;
+    }
+
     public Object update(UUID id, UpdateBoardgameRequest request) {
         Boardgame boardgame = boardgameRepository.findById(id).orElseThrow();
         boardgame.setTitle(request.getTitle());

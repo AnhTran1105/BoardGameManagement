@@ -42,7 +42,12 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(userService.delete(id));
+        return ResponseEntity.ok(userService.deleteMultiple(id));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> deleteMultiple(@RequestParam("id") List<UUID> id) {
+        return ResponseEntity.ok(userService.deleteMultiple(id));
     }
 
     @GetMapping("/get-all")

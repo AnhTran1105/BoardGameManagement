@@ -49,6 +49,11 @@ public class BoardgameController {
         return ResponseEntity.ok(boardgameService.delete(id));
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> deleteMultiple(@RequestParam("id") List<UUID> id) {
+        return ResponseEntity.ok(boardgameService.deleteMultiple(id));
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(
             @PathVariable("id") UUID id,

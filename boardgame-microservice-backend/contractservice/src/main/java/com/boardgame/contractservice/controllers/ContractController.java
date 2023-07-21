@@ -9,19 +9,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.boardgame.contractservice.requests.CreateContractRequest;
 import com.boardgame.contractservice.services.ContractService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletRequest;
@@ -64,6 +57,10 @@ public class ContractController {
         return ResponseEntity.ok(contractService.delete(id));
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> deleteMultiple(@RequestParam("id") List<UUID> id) {
+        return ResponseEntity.ok(contractService.deleteMultiple(id));
+    }
 
     private void checkForValidation(BindingResult bindingResult) {
 
