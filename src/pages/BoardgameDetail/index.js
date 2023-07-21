@@ -3,11 +3,45 @@ import Tooltip from '@tippyjs/react';
 import { useRef, useEffect, useState } from 'react';
 import usePortal from 'react-cool-portal';
 import axios from '~/utils/axios';
+import { useParams } from 'react-router-dom';
 
-function BoardgameDetail({ props }) {
+function BoardgameDetail() {
     const { Portal, show, hide } = usePortal({
         defaultShow: false,
     });
+
+    const [data, setData] = useState(null);
+
+    const { id } = useParams();
+
+    useEffect(() => {
+        (async () => {
+            await axios
+                .get(`boardgame/find/${id}`)
+                .then((response) => {
+                    setData(response.boardgame);
+                })
+                .catch((error) => console.error(error));
+        })();
+    }, [id]);
+
+    useEffect(() => {
+        if (data) {
+            setFormData({
+                title: data.title,
+                description: data.description,
+                imageUrl: data.imageUrl,
+                playerNumberMin: data.playerNumberMin,
+                playerNumberMax: data.playerNumberMax,
+                durationMin: data.durationMin,
+                durationMax: data.durationMax,
+                ageLimit: data.ageLimit,
+                publisher: data.publisher,
+                price: data.price,
+                releaseDate: data.releaseDate,
+            });
+        }
+    }, [data]);
 
     const modalRef = useRef();
     useEffect(() => {
@@ -25,19 +59,7 @@ function BoardgameDetail({ props }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        imageUrl: '',
-        playerNumberMin: '',
-        playerNumberMax: '',
-        durationMin: '',
-        durationMax: '',
-        ageLimit: '',
-        publisher: '',
-        price: '',
-        releaseDate: '',
-    });
+    const [formData, setFormData] = useState({});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -80,6 +102,10 @@ function BoardgameDetail({ props }) {
         }));
     };
 
+    if (!data) {
+        return null;
+    }
+
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
@@ -110,20 +136,15 @@ function BoardgameDetail({ props }) {
                             <div>
                                 <div className="card-image">
                                     <figure className="image">
-                                        <img
-                                            src="https://cdn-ext.fanatical.com/production/product/1280x720/a774d35b-743d-4277-a719-55a0a01f5b1f.jpg"
-                                            alt=""
-                                        />
+                                        <img src={data.imageUrl} alt="" />
                                     </figure>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="media-content">
-                        <h3 className="title">
-                            Naruto shippuden ultimate ninja storm revolution 1
-                        </h3>
-                        <h1 className="subtitle">Naruto boardgame</h1>
+                        <h3 className="title">{data.title}</h3>
+                        <h1 className="subtitle">{data.description}</h1>
                     </div>
                 </div>
                 <div className="boardgame-content">
@@ -131,55 +152,62 @@ function BoardgameDetail({ props }) {
                         <ul className="boardgame-content-list">
                             <li>
                                 <span>
-                                    <p className="list-title">Publisher:</p>Japanime Games, Yoka
-                                    Boardgames, Yoka by Tsume
+                                    <p className="list-title">Publisher:</p>
+                                    {data.publisher}
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Price:</p>1500$
+                                    <p className="list-title">Price:</p>
+                                    {data.price}$
                                 </span>
                             </li>
                             <li>
                                 <span>
                                     <p className="list-title">Release date:</p>
-                                    {formatDate('2023-06-30')}
+                                    {formatDate(data.releaseDate)}
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Age limit:</p>10
+                                    <p className="list-title">Age limit:</p>
+                                    {data.ageLimit}
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Minimum duration:</p>15
+                                    <p className="list-title">Minimum duration:</p>
+                                    {data.durationMin}
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Maximum duration:</p>60
+                                    <p className="list-title">Maximum duration:</p>
+                                    {data.durationMax}
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Minimum players:</p>2
+                                    <p className="list-title">Minimum players:</p>
+                                    {data.playerNumberMin}
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Maximum players:</p>4
+                                    <p className="list-title">Maximum players:</p>
+                                    {data.playerNumberMax}
                                 </span>
                             </li>
                             <li>
                                 <span>
                                     <p className="list-title">Create at:</p>
-                                    {formatDate('2023-06-14T05:32:37.963+00:00'.split('T')[0])}
+                                    {formatDate(data.createAt.split('T')[0])}
                                 </span>
                             </li>
                             <li>
                                 <span>
-                                    <p className="list-title">Update at:</p>null
+                                    <p className="list-title">Update at:</p>
+                                    {data.updateAt ? data.updateAt : 'null'}
                                 </span>
                             </li>
                         </ul>

@@ -16,6 +16,7 @@ function Sidebar() {
                         </div>
                     </div>
                 </nav>
+                <div className="sidebar-divide"></div>
                 <nav className="app-navbar app-navbar-main">
                     <ul className="app-navbar-menu">
                         <li className="app-navbar-item">
@@ -135,7 +136,6 @@ function Sidebar() {
                         </li>
                     </ul>
                 </nav>
-                <div className="sidebar-divide"></div>
             </div>
         </aside>
     );

@@ -9,15 +9,56 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 
+import { useEffect, useState } from 'react';
+import axios from '~/utils/axios';
+
 function Dashboard() {
-    const data = [
-        { name: 'May', boardgame: 20, user: 10, contract: 5 },
-        { name: 'Jun', boardgame: 30, user: 15, contract: 8 },
-        { name: 'July', boardgame: 25, user: 12, contract: 6 },
-        { name: 'August', boardgame: 12, user: 7, contract: 3 },
-        { name: 'September', boardgame: 20, user: 16, contract: 10 },
-        { name: 'October', boardgame: 23, user: 5, contract: 9 },
-    ];
+    const [boardgames, setBoardgames] = useState(null);
+    const [users, setUsers] = useState(null);
+    const [contracts, setContracts] = useState(null);
+    const [data, setData] = useState(null);
+
+    // const data = [{ name: 'May', boardgame: 20, user: 10, contract: 5 }];
+
+    useEffect(() => {
+        (async () => {
+            await axios
+                .get('boardgame/get-all')
+                .then((response) => setBoardgames(response.boardgames))
+                .catch((error) => console.error(error));
+        })();
+        (async () => {
+            await axios
+                .get('user/get-all')
+                .then((response) => setUsers(response.users))
+                .catch((error) => console.error(error));
+        })();
+        (async () => {
+            await axios
+                .get('contract/get-all')
+                .then((response) => setContracts(response.contracts))
+                .catch((error) => console.error(error));
+        })();
+    }, []);
+
+    useEffect(() => {
+        if (boardgames && users && contracts) {
+            setData([
+                {
+                    name: 'July',
+                    boardgame: boardgames.length,
+                    user: users.length,
+                    contract: contracts.length,
+                },
+            ]);
+        }
+    }, [boardgames, users, contracts]);
+
+    if (!data) {
+        return null;
+    }
+
+    console.log(boardgames);
 
     return (
         <div className="container pad-t-32">

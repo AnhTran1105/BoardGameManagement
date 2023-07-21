@@ -5,6 +5,7 @@ import axios from '~/utils/axios';
 import { useStore } from '~/store';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import queryString from 'query-string';
 
 function Boardgames() {
     const { Portal, show, hide } = usePortal({
@@ -108,9 +109,17 @@ function Boardgames() {
     };
 
     const handleDelete = async () => {
-        // const response = await axios.post('boardgame/delete', {
-        //     boardgames: selectedBoardGames.map((boardgame) => boardgame.id),
-        // })
+        const ids = selectedBoardGames.map((boardgame) => boardgame.id);
+        const query = queryString.stringify({ id: ids });
+
+        await axios
+            .delete(`boardgame/delete?${query}`)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const validateImageLink = (link) => {

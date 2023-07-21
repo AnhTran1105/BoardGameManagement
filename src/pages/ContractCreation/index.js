@@ -54,7 +54,6 @@ function ContractCreation() {
                 {
                     headers: {
                         Authorization: `Bearer ${state.loginData.accessToken}`,
-                        'content-type': 'application/json',
                     },
                 },
             );

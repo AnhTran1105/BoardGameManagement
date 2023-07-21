@@ -109,14 +109,43 @@ function Users() {
             ...prevForm,
             ...selectedUser,
         }));
+
         show();
-        // await axios.post('user/delete', {
-        //     selectedUsers,
-        // });
+    };
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        if (selectedUser) {
+            const name = selectedUser.name;
+            const phoneNumber = selectedUser.phoneNumber;
+            const gender = selectedUser.gender;
+            const birthday = selectedUser.birthday;
+            const address = selectedUser.address;
+
+            await axios
+                .put(`user/update/${selectedUser.id}`, {
+                    name,
+                    phoneNumber,
+                    gender,
+                    birthday,
+                    address,
+                })
+                .then((response) => console.log(response))
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
     };
 
     const handleDeleteUsers = async () => {
-        // notify();
+        await axios
+            .delete('user/delete/431802a7-7fb5-4681-98c6-c2c746a8ea40')
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const handleUserClick = (user) => {
@@ -462,6 +491,7 @@ function Users() {
                                             <button
                                                 className="btn btn-primary btn-block"
                                                 type="submit"
+                                                // onClick={handleUpdate}
                                             >
                                                 {isUpdating ? 'Update user' : 'Add user'}
                                             </button>
