@@ -116,6 +116,19 @@ function Boardgames() {
             .delete(`boardgame/delete?${query}`)
             .then((response) => {
                 console.log(response);
+                if (response.message === 'Deleted successfully.') {
+                    toast.success('Deleted successfully!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                    hide();
+                    setReload(!reload);
+                } else {
+                    toast.error('Deleted fail!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -143,9 +156,9 @@ function Boardgames() {
         return null;
     }
 
-    const filteredBoardGames = boardgames.filter((item) =>
-        item.title.toLowerCase().includes(state.searchBoardgames.toLowerCase()),
-    );
+    const filteredBoardGames = boardgames
+        .filter((item) => item.title.toLowerCase().includes(state.searchBoardgames.toLowerCase()))
+        .reverse();
 
     const handleBoardGameSelect = (boardgame) => {
         const isAlreadySelected = selectedBoardGames.some(

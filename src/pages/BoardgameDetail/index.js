@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import formatDate from '~/utils/formatDate';
 import Tooltip from '@tippyjs/react';
 import { useRef, useEffect, useState } from 'react';
 import usePortal from 'react-cool-portal';
 import axios from '~/utils/axios';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function BoardgameDetail() {
     const { Portal, show, hide } = usePortal({
@@ -11,6 +13,7 @@ function BoardgameDetail() {
     });
 
     const [data, setData] = useState(null);
+    const [reload, setReload] = useState(false);
 
     const { id } = useParams();
 
@@ -23,7 +26,7 @@ function BoardgameDetail() {
                 })
                 .catch((error) => console.error(error));
         })();
-    }, [id]);
+    }, [reload]);
 
     useEffect(() => {
         if (data) {
@@ -75,22 +78,39 @@ function BoardgameDetail() {
         const price = formData.price;
         const releaseDate = formData.releaseDate;
 
-        const response = await axios.post('boardgame/update', {
-            title,
-            description,
-            imageUrl,
-            playerNumberMin,
-            playerNumberMax,
-            durationMin,
-            durationMax,
-            ageLimit,
-            publisher,
-            price,
-            releaseDate,
-        });
-        console.log(response);
-
-        window.location.reload();
+        await axios
+            .put(`boardgame/update/${id}`, {
+                title,
+                description,
+                imageUrl,
+                playerNumberMin,
+                playerNumberMax,
+                durationMin,
+                durationMax,
+                ageLimit,
+                publisher,
+                price,
+                releaseDate,
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.message === 'Updated successfully.') {
+                    toast.success('Updated successfully!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                    hide();
+                    setReload(!reload);
+                } else {
+                    toast.error('Updated fail!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const handleChange = (e) => {

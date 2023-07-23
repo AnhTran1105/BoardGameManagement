@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const instance = axios.create({
     // baseURL: `${process.env.REACT_APP_BASE_URL_API}${process.env.REACT_APP_PATH_API}`,
-    baseURL: 'http://localhost:8080/api/',
+    baseURL: 'https://hoangvu75-crispy-lamp-jwp777g569q2547p-8080.preview.app.github.dev/api',
 });
 
 // custom response

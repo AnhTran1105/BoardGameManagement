@@ -4,6 +4,7 @@ import Tooltip from '@tippyjs/react';
 import axios from '../../utils/axios';
 import { useStore } from '~/store';
 import { toast } from 'react-toastify';
+import queryString from 'query-string';
 
 function Users() {
     const { Portal, show, hide } = usePortal({
@@ -104,44 +105,65 @@ function Users() {
             });
     };
 
-    const handleUpdateUser = async () => {
-        setFormData((prevForm) => ({
-            ...prevForm,
-            ...selectedUser,
-        }));
-
-        show();
-    };
-
-    const handleUpdate = async (e) => {
+    const handleUpdateUser = async (e) => {
         e.preventDefault();
-        if (selectedUser) {
-            const name = selectedUser.name;
-            const phoneNumber = selectedUser.phoneNumber;
-            const gender = selectedUser.gender;
-            const birthday = selectedUser.birthday;
-            const address = selectedUser.address;
 
-            await axios
-                .put(`user/update/${selectedUser.id}`, {
-                    name,
-                    phoneNumber,
-                    gender,
-                    birthday,
-                    address,
-                })
-                .then((response) => console.log(response))
-                .catch((err) => {
-                    console.error(err);
-                });
-        }
+        const name = formData.name;
+        const phoneNumber = formData.phoneNumber;
+        const gender = formData.gender;
+        const birthday = formData.birthday;
+        const address = formData.address;
+
+        await axios
+            .put(`user/update/${selectedUser.id}`, {
+                name,
+                phoneNumber,
+                gender,
+                birthday,
+                address,
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.message === 'Updated successfully.') {
+                    toast.success('Updated successfully!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                    hide();
+                    setReload(!reload);
+                } else {
+                    toast.error('Updated fail!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
 
     const handleDeleteUsers = async () => {
+        const ids = selectedUsers.map((user) => user.id);
+        const query = queryString.stringify({ id: ids });
+
         await axios
-            .delete('user/delete/431802a7-7fb5-4681-98c6-c2c746a8ea40')
+            .delete(`user/delete?${query}`)
             .then((response) => {
                 console.log(response);
+                if (response.message === 'Deleted successfully.') {
+                    toast.success('Deleted successfully!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                    hide();
+                    setReload(!reload);
+                } else {
+                    toast.error('Deleted fail!', {
+                        position: toast.POSITION.TOP_CENTER,
+                        hideProgressBar: true,
+                    });
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -168,18 +190,27 @@ function Users() {
         return null;
     }
 
-    const filteredUsers = users.filter((user) =>
-        (user.name.firstName + ' ' + user.name.lastName)
-            .toLowerCase()
-            .includes(state.searchUsers.toLowerCase()),
-    );
+    const filteredUsers = users
+        .filter((user) =>
+            (user.name.firstName + ' ' + user.name.lastName)
+                .toLowerCase()
+                .includes(state.searchUsers.toLowerCase()),
+        )
+        .reverse();
 
     return (
         <div className="container pad-t-32">
             <h3 className="app-section-title title is-2">
                 <div className="action-btns">
                     <Tooltip content="Create new user">
-                        <button className="app-btn success-btn" onClick={show}>
+                        <button
+                            className="app-btn success-btn"
+                            onClick={() => {
+                                setUpdating(false);
+                                setDeleting(false);
+                                show();
+                            }}
+                        >
                             <i className="icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -354,7 +385,14 @@ function Users() {
                         <button
                             className="app-btn default-btn large"
                             disabled={!selectedUser}
-                            onClick={() => handleUpdateUser()}
+                            onClick={() => {
+                                setUpdating(true);
+                                setFormData((prevForm) => ({
+                                    ...prevForm,
+                                    ...selectedUser,
+                                }));
+                                show();
+                            }}
                         >
                             <i className="icon">
                                 <svg
@@ -421,7 +459,11 @@ function Users() {
                                         </Tooltip>
                                     </div>
                                     <div className="form-body">
-                                        <form onSubmit={handleCreateUser}>
+                                        <form
+                                            onSubmit={
+                                                isUpdating ? handleUpdateUser : handleCreateUser
+                                            }
+                                        >
                                             <div className="flex-items">
                                                 <div>
                                                     <label htmlFor="firstName">First name</label>
